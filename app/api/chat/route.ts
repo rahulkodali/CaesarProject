@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { buildGeminiPrompt, getRuleBasedReply, type ChatMessage, type PersonaId } from "@/lib/caesar";
 
-const GEMINI_MODEL = "gemini-3-flash-preview";
+const GEMINI_MODEL = "gemini-2.5-flash";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 type ChatRequest = {
@@ -11,10 +11,13 @@ type ChatRequest = {
 };
 
 export async function POST(request: Request) {
+  const requestId = crypto.randomUUID().slice(0, 8);
+
   try {
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
+      console.error(`[chat:${requestId}] Missing GEMINI_API_KEY`);
       return NextResponse.json(
         { error: "Missing GEMINI_API_KEY. Add it to .env.local and restart the dev server." },
         { status: 500 }
@@ -26,10 +29,18 @@ export async function POST(request: Request) {
     const persona = body.persona ?? "general";
 
     if (!message) {
+      console.warn(`[chat:${requestId}] Empty message rejected`);
       return NextResponse.json({ error: "Message is required." }, { status: 400 });
     }
 
-    const prompt = buildGeminiPrompt(message, persona, body.history ?? []);
+    console.info(
+      `[chat:${requestId}] Request received persona=${persona} model=${GEMINI_MODEL} messageLength=${message.length} historyItems=${
+        body.history?.length ?? 0
+      } keyPresent=${Boolean(apiKey)}`
+    );
+
+    const referenceAnswer = getRuleBasedReply(message, persona);
+    const prompt = buildGeminiPrompt(message, persona, body.history ?? [], referenceAnswer);
     const geminiResponse = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
       method: "POST",
       headers: {
@@ -51,6 +62,9 @@ export async function POST(request: Request) {
 
     if (!geminiResponse.ok) {
       const detail = await geminiResponse.text();
+      console.error(
+        `[chat:${requestId}] Gemini request failed status=${geminiResponse.status} detail=${detail.slice(0, 300)}`
+      );
       return NextResponse.json(
         { error: "Gemini request failed.", detail: detail.slice(0, 500) },
         { status: geminiResponse.status }
@@ -60,6 +74,12 @@ export async function POST(request: Request) {
     const data = await geminiResponse.json();
     const candidate = data?.candidates?.[0];
     const finishReason = candidate?.finishReason;
+    console.info(
+      `[chat:${requestId}] Gemini response ok finishReason=${finishReason ?? "unknown"} candidates=${
+        data?.candidates?.length ?? 0
+      }`
+    );
+
     const reply =
       candidate?.content?.parts
         ?.map((part: { text?: string }) => part.text ?? "")
@@ -67,16 +87,24 @@ export async function POST(request: Request) {
         .trim() ?? "";
 
     if (!reply) {
+      console.error(`[chat:${requestId}] Gemini returned an empty response`);
       return NextResponse.json({ error: "Gemini returned an empty response." }, { status: 502 });
     }
 
     if (finishReason === "MAX_TOKENS" || !/[.!?]"?$/.test(reply)) {
-      return NextResponse.json({ reply: getRuleBasedReply(message, persona) });
+      console.warn(
+        `[chat:${requestId}] Falling back to reference answer reason=${
+          finishReason === "MAX_TOKENS" ? "MAX_TOKENS" : "incomplete_sentence"
+        } replyLength=${reply.length}`
+      );
+      return NextResponse.json({ reply: referenceAnswer });
     }
 
+    console.info(`[chat:${requestId}] Returning Gemini reply replyLength=${reply.length}`);
     return NextResponse.json({ reply });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown server error.";
+    console.error(`[chat:${requestId}] Route error: ${message}`);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

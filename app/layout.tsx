@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Talk to Julius Caesar",
-  description: "A historically grounded Julius Caesar chatbot for a class project."
+  description: "A historically grounded Julius Caesar conversation interface."
 };
 
 export default function RootLayout({

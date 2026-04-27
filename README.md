@@ -1,6 +1,6 @@
 # Talk to Julius Caesar
 
-A polished Next.js class-project chatbot where users can talk with Julius Caesar through three historically flavored voices. The app uses Gemini through a server route when an API key is available and falls back to local rule-based responses if the API call fails.
+A polished Next.js chatbot where users can talk with Julius Caesar through three historically flavored voices. The app uses Gemini through a server route when an API key is available and falls back to local rule-based responses if the API call fails.
 
 ## Features
 
@@ -12,7 +12,7 @@ A polished Next.js class-project chatbot where users can talk with Julius Caesar
 - Preset historical prompt buttons
 - Gemini API wrapper at `app/api/chat/route.ts`
 - Rule-based fallback responses for common topics
-- Reset-window and self-test controls
+- Reset-window control
 - No client-side API key exposure
 
 ## How The Voices Work

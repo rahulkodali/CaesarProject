@@ -65,7 +65,8 @@ export function getPersonaPrompt(personaId: PersonaId): string {
 export function buildGeminiPrompt(
   message: string,
   personaId: PersonaId,
-  history: ChatMessage[] = []
+  history: ChatMessage[] = [],
+  referenceAnswer?: string
 ): string {
   const recentHistory = history
     .filter((item) => item.role === "user" || item.role === "assistant")
@@ -74,13 +75,17 @@ export function buildGeminiPrompt(
     .join("\n");
 
   return [
-    "Act as Gaius Julius Caesar in a class-project chatbot.",
+    "Act as Gaius Julius Caesar in a historically grounded conversation interface.",
     getPersonaPrompt(personaId),
     "Stay in character as Julius Caesar and remain historically grounded.",
+    "If the visitor only greets you, greet them back briefly and invite a question; do not pretend they asked about politics or war.",
     "Do not invent modern knowledge Caesar could not know. If asked about events beyond 44 BCE, briefly acknowledge the limit of your perspective.",
     "Answer in 2 or 3 concise sentences. Aim for 45 to 80 words total.",
     "Give a complete answer with a clear ending. Do not trail off, list too many examples, or write long speeches unless the visitor explicitly asks for more detail.",
     "Prefer one direct historical reason, one Caesar-like justification, and then stop.",
+    referenceAnswer
+      ? `Historical grounding note:\n${referenceAnswer}\nUse this as factual and tonal guidance when it fits the visitor's message. Do not copy it word-for-word, and ignore it if the visitor is only greeting you or changing topics.`
+      : "Historical grounding note: none.",
     recentHistory ? `Recent conversation:\n${recentHistory}` : "Recent conversation: none.",
     `Visitor: ${message}`,
     "Caesar:"
@@ -91,7 +96,19 @@ export function getRuleBasedReply(input: string, personaId: PersonaId): string {
   const text = input.toLowerCase();
   let reply: string;
 
-  if (matches(text, ["rubicon", "alea", "jacta", "iacta"])) {
+  if (isGreeting(text)) {
+    reply =
+      "Salve. You stand before Gaius Julius Caesar; speak plainly, and I will answer as a Roman who has known command, rivalry, and the weight of power.";
+  } else if (matches(text, ["what are you doing", "what're you doing", "what you doing", "what is this", "what are we doing"])) {
+    reply =
+      "I am receiving your questions and answering as Caesar would: with an eye toward power, reputation, command, and Rome's future. Ask me of the Rubicon, Pompey, the Senate, my soldiers, or the burden of ambition.";
+  } else if (matches(text, ["who are you", "what are you", "introduce yourself"])) {
+    reply =
+      "I am Gaius Julius Caesar, soldier, consul, dictator, and servant of Rome's destiny. In this voice I answer from the world I knew: the Republic, the legions, the Senate, and the ambitions that remade them.";
+  } else if (matches(text, ["how are you", "how do you feel", "are you okay"])) {
+    reply =
+      "I am steady, as a commander must be. Rome has never rewarded trembling hands, and a man surrounded by rivals must keep his face calm even when danger gathers.";
+  } else if (matches(text, ["rubicon", "alea", "jacta", "iacta"])) {
     reply =
       "I crossed the Rubicon because delay had become surrender. My enemies in Rome demanded I lay down command while they kept their power; by marching south, I chose action over humiliation and placed the decision before Rome itself.";
   } else if (matches(text, ["king", "crown", "rex", "diadem"])) {
@@ -123,31 +140,12 @@ export function getRuleBasedReply(input: string, personaId: PersonaId): string {
   return `${reply}${personaFlavor(personaId)}`;
 }
 
-export function runSelfTests(): { passed: number; total: number; failures: string[] } {
-  const checks: Array<[string, boolean]> = [
-    ["Rubicon input returns Rubicon-related answer", /Rubicon/i.test(getRuleBasedReply("Why the Rubicon?", "general"))],
-    [
-      "Political persona adds reputation-style flavor",
-      /reputation|public confidence|persuasion/i.test(getRuleBasedReply("Tell me about Pompey", "political"))
-    ],
-    [
-      "Final Days persona adds danger-style flavor",
-      /danger|betrayal|enemy|enemies|mortal/i.test(getRuleBasedReply("Tell me about the Senate", "final-days"))
-    ],
-    [
-      "Unknown input gets fallback response",
-      /Forum|hesitation|leader/i.test(getRuleBasedReply("What is your favorite color?", "general"))
-    ],
-    ["LLM helper function exists", typeof buildGeminiPrompt === "function"],
-    ["Persona prompt exists for each persona", personas.every((persona) => persona.systemPrompt.length > 40)]
-  ];
-
-  const failures = checks.filter(([, passed]) => !passed).map(([name]) => name);
-  return { passed: checks.length - failures.length, total: checks.length, failures };
-}
-
 function matches(text: string, keywords: string[]): boolean {
   return keywords.some((keyword) => text.includes(keyword));
+}
+
+function isGreeting(text: string): boolean {
+  return /^(hi|hello|hey|salve|hail|yo|sup|good morning|good afternoon|good evening)[.!?\s]*$/.test(text.trim());
 }
 
 function personaFlavor(personaId: PersonaId): string {
