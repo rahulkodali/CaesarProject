@@ -44,7 +44,7 @@ export async function POST(request: Request) {
         ],
         generationConfig: {
           temperature: 0.7,
-          maxOutputTokens: 1200
+          maxOutputTokens: 500
         }
       })
     });
@@ -59,7 +59,6 @@ export async function POST(request: Request) {
 
     const data = await geminiResponse.json();
     const candidate = data?.candidates?.[0];
-    const finishReason = candidate?.finishReason;
     const reply =
       candidate?.content?.parts
         ?.map((part: { text?: string }) => part.text ?? "")
@@ -70,9 +69,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Gemini returned an empty response." }, { status: 502 });
     }
 
-    return NextResponse.json({
-      reply: finishReason === "MAX_TOKENS" ? `${reply}\n\n[Response reached the model output limit.]` : reply
-    });
+    return NextResponse.json({ reply });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown server error.";
     return NextResponse.json({ error: message }, { status: 500 });

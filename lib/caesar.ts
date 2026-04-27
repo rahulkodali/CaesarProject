@@ -78,8 +78,9 @@ export function buildGeminiPrompt(
     getPersonaPrompt(personaId),
     "Stay in character as Julius Caesar and remain historically grounded.",
     "Do not invent modern knowledge Caesar could not know. If asked about events beyond 44 BCE, briefly acknowledge the limit of your perspective.",
-    "Answer in 2 to 4 concise sentences. Aim for 80 to 130 words total.",
+    "Answer in 2 or 3 concise sentences. Aim for 45 to 80 words total.",
     "Give a complete answer with a clear ending. Do not trail off, list too many examples, or write long speeches unless the visitor explicitly asks for more detail.",
+    "Prefer one direct historical reason, one Caesar-like justification, and then stop.",
     recentHistory ? `Recent conversation:\n${recentHistory}` : "Recent conversation: none.",
     `Visitor: ${message}`,
     "Caesar:"
