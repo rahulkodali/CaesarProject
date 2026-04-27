@@ -118,13 +118,9 @@ export default function CaesarChatbot() {
       }
 
       appendAssistant(data.reply, targetPersona);
-    } catch (error) {
-      const detail = error instanceof Error ? error.message : "Unknown error.";
+    } catch {
       appendAssistant(
-        `I could not reach the oracle, so I will answer from my own judgment. (${detail})\n\n${getRuleBasedReply(
-          trimmed,
-          targetPersona
-        )}`,
+        getRuleBasedReply(trimmed, targetPersona),
         targetPersona
       );
     } finally {
@@ -216,11 +212,11 @@ export default function CaesarChatbot() {
           </section>
 
           <section className="mt-6 rounded-xl border border-stone-300 bg-white/60 p-3">
-            <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-stone-600">Response Engine</h2>
-            <p className="text-xs leading-5 text-stone-600">
-              Caesar uses Gemini through <span className="font-mono">/api/chat</span> when available, with a local
-              rule-based answer as an automatic fallback.
-            </p>
+            <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-stone-600">Historical Voice Design</h2>
+            <div className="mt-3 space-y-2 text-xs leading-5 text-stone-600">
+              <p>Each window keeps its own conversation, tone, and historical focus.</p>
+              <p>Replies are shaped around Caesar's command style, political image, or final-days perspective.</p>
+            </div>
           </section>
 
           <section className="mt-6 space-y-3">
@@ -267,7 +263,8 @@ export default function CaesarChatbot() {
                   <h2 className="mt-1 text-xl font-bold">{activePersona.label}</h2>
                 </div>
                 <div className="flex flex-wrap gap-2 text-xs font-semibold">
-                  <span className="rounded-full bg-stone-100 px-3 py-1 text-stone-700">Gemini + local fallback</span>
+                  <span className="rounded-full bg-stone-100 px-3 py-1 text-stone-700">Historically grounded voice</span>
+                  <span className="rounded-full bg-stone-100 px-3 py-1 text-stone-700">Separate voice window</span>
                   {loading ? <span className="rounded-full bg-clay px-3 py-1 text-white">Thinking</span> : null}
                 </div>
               </div>
