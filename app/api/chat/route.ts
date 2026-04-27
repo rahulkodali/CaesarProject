@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buildGeminiPrompt, type ChatMessage, type PersonaId } from "@/lib/caesar";
+import { buildGeminiPrompt, getRuleBasedReply, type ChatMessage, type PersonaId } from "@/lib/caesar";
 
 const GEMINI_MODEL = "gemini-3-flash-preview";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
         ],
         generationConfig: {
           temperature: 0.7,
-          maxOutputTokens: 500
+          maxOutputTokens: 1600
         }
       })
     });
@@ -59,6 +59,7 @@ export async function POST(request: Request) {
 
     const data = await geminiResponse.json();
     const candidate = data?.candidates?.[0];
+    const finishReason = candidate?.finishReason;
     const reply =
       candidate?.content?.parts
         ?.map((part: { text?: string }) => part.text ?? "")
@@ -67,6 +68,10 @@ export async function POST(request: Request) {
 
     if (!reply) {
       return NextResponse.json({ error: "Gemini returned an empty response." }, { status: 502 });
+    }
+
+    if (finishReason === "MAX_TOKENS" || !/[.!?]"?$/.test(reply)) {
+      return NextResponse.json({ reply: getRuleBasedReply(message, persona) });
     }
 
     return NextResponse.json({ reply });
