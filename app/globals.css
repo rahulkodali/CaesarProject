@@ -12,14 +12,18 @@
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(156, 96, 68, 0.12), transparent 32rem),
-    linear-gradient(135deg, #f8f6f0 0%, #e8e2d6 100%);
-  color: #201c17;
+  background: #ffffff;
+  color: #2f2418;
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 button,
 input,
 textarea {
   font: inherit;
+}
+
+::selection {
+  background: #9c2f28;
+  color: #f8f0de;
 }

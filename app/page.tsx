@@ -46,9 +46,9 @@ const initialMessagesByPersona: Record<PersonaId, DisplayMessage[]> = {
 };
 
 const personaAccent: Record<PersonaId, string> = {
-  general: "border-stone-800 bg-stone-900 text-marble",
-  political: "border-clay bg-clay text-white",
-  "final-days": "border-laurel bg-laurel text-white"
+  general: "border-[#6f3f25] text-[#4a2b1a]",
+  political: "border-[#b94636] text-[#7a2d23]",
+  "final-days": "border-[#61764a] text-[#52633d]"
 };
 
 const personaTone: Record<PersonaId, string> = {
@@ -119,10 +119,7 @@ export default function CaesarChatbot() {
 
       appendAssistant(data.reply, targetPersona);
     } catch {
-      appendAssistant(
-        getRuleBasedReply(trimmed, targetPersona),
-        targetPersona
-      );
+      appendAssistant(getRuleBasedReply(trimmed, targetPersona), targetPersona);
     } finally {
       setLoadingPersona(null);
     }
@@ -172,174 +169,173 @@ export default function CaesarChatbot() {
   }
 
   return (
-    <main className="min-h-screen px-4 py-5 text-ink sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-7xl flex-col gap-5 lg:h-[calc(100vh-2.5rem)] lg:flex-row">
-        <aside className="rounded-2xl border border-stone-300/70 bg-marble/85 p-5 shadow-soft lg:w-80 lg:overflow-y-auto">
-          <div className="mb-6">
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-clay">Class Final Project</p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink">Talk to Julius Caesar</h1>
-            <p className="mt-3 text-sm leading-6 text-stone-700">
-              Choose a persona, then question Caesar about power, reform, war, and memory.
+    <main className="min-h-screen bg-[#ffffff] text-[#3a2a1b]">
+      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[18rem_minmax(0,1fr)]">
+        <aside className="border-b border-[#d8c9b1] bg-[#f7f3ec] lg:border-b-0 lg:border-r">
+          <div className="p-5 lg:p-6">
+            <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
+              CC302 Final
+            </p>
+            <h1 className="mt-3 max-w-[12ch] text-5xl font-black leading-[0.86] tracking-tight text-[#2a1c12] lg:text-6xl">
+              Talk to Julius Caesar
+            </h1>
+            <p className="mt-5 border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a]">
+              Three voice windows. One Roman mind under pressure.
             </p>
           </div>
 
-          <section className="space-y-3">
-            <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-stone-600">Voice Windows</h2>
-            <div className="space-y-2">
-              {personas.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setPersona(item.id)}
-                  className={`w-full rounded-xl border p-3 text-left transition ${
-                    persona === item.id
-                      ? "border-clay bg-white shadow-sm"
-                      : "border-stone-300 bg-white/55 hover:border-stone-500"
+          <section className="border-y border-[#d8c9b1]">
+            <h2 className="border-b border-[#d8c9b1] px-5 py-2 font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#765537]">
+              Voice Index
+            </h2>
+            {personas.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setPersona(item.id)}
+                className={`group grid w-full grid-cols-[2.5rem_minmax(0,1fr)_2rem] items-center border-b border-[#ded0bb] px-5 py-3 text-left transition ${
+                  persona === item.id
+                    ? "bg-[#3a2a1b] text-[#f4e2be]"
+                    : "text-[#3a2a1b] hover:bg-[#f8f4ee]"
+                }`}
+              >
+                <span
+                  className={`grid h-8 w-8 place-items-center border font-sans text-base transition group-hover:-translate-y-0.5 ${personaAccent[item.id]}`}
+                >
+                  {item.icon}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-base font-black leading-4">{item.label}</span>
+                  <span
+                    className={`mt-1 block truncate font-sans text-[11px] ${
+                      persona === item.id ? "text-[#ead5af]" : "text-[#684b31]"
+                    }`}
+                  >
+                    {personaTone[item.id]}
+                  </span>
+                </span>
+                <span
+                  className={`justify-self-end border px-1.5 py-0.5 font-sans text-[10px] font-black ${
+                    persona === item.id ? "border-[#f4e2be]" : "border-[#d8c9b1] text-[#5b422a]"
                   }`}
                 >
-                  <span className="flex items-center gap-3">
-                    <span className={`grid h-10 w-10 place-items-center rounded-full border text-xl ${personaAccent[item.id]}`}>
-                      {item.icon}
-                    </span>
-                    <span>
-                      <span className="block font-semibold">{item.label}</span>
-                      <span className="mt-1 block text-xs leading-5 text-stone-600">{personaTone[item.id]}</span>
-                    </span>
-                  </span>
-                </button>
-              ))}
-            </div>
+                  {messagesByPersona[item.id].length}
+                </span>
+              </button>
+            ))}
           </section>
 
-          <section className="mt-6 rounded-xl border border-stone-300 bg-white/60 p-3">
-            <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-stone-600">Historical Voice Design</h2>
-            <div className="mt-3 space-y-2 text-xs leading-5 text-stone-600">
-              <p>Each window keeps its own conversation, tone, and historical focus.</p>
-              <p>Replies are shaped around Caesar's command style, political image, or final-days perspective.</p>
-            </div>
+          <section className="grid grid-cols-2 border-b border-[#d8c9b1] font-sans text-xs font-black uppercase tracking-[0.12em]">
+            <button
+              type="button"
+              onClick={resetChat}
+              className="border-r border-[#d8c9b1] px-4 py-3 text-[#6f3f25] transition hover:bg-[#eee6d8]"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={runChecks}
+              className="px-4 py-3 text-[#6f3f25] transition hover:bg-[#eee6d8]"
+            >
+              Self-test
+            </button>
           </section>
 
-          <section className="mt-6 space-y-3">
-            <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-stone-600">Preset Prompts</h2>
-            <div className="grid gap-2">
-              {presetPrompts.map((prompt) => (
+          <section className="p-5 lg:p-6">
+            <h2 className="font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#765537]">
+              Design Notes
+            </h2>
+            <div className="mt-4 grid gap-3 font-sans text-xs leading-5 text-[#5b422a]">
+              <p>
+                Each voice keeps its own transcript, tone, and historical focus so the answers feel like separate
+                interpretations of Caesar.
+              </p>
+              <p className="text-[#6f3f25]">Built for quick classroom demos: dense controls, direct prompts, no clutter.</p>
+            </div>
+          </section>
+        </aside>
+
+        <section className="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)_auto] bg-[#ffffff]">
+          <header className="border-b border-[#d8c9b1] px-5 py-4 sm:px-7">
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
+              <div>
+                <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
+                  Active Transcript
+                </p>
+                <h2 className="mt-1 text-4xl font-black leading-none text-[#2a1c12] sm:text-5xl">
+                  {activePersona.label}
+                </h2>
+              </div>
+              <div className="border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a]">
+                <p>{activePersona.description}</p>
+                {loading ? <p className="mt-1 font-black text-[#3a2a1b]">Caesar is composing a reply.</p> : null}
+              </div>
+            </div>
+          </header>
+
+          <section className="border-b border-[#d8c9b1] bg-[#f3eee5] px-5 py-3 sm:px-7">
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {presetPrompts.map((prompt, index) => (
                 <button
                   key={prompt}
                   type="button"
                   onClick={() => void sendMessage(prompt)}
                   disabled={Boolean(loadingPersona)}
-                  className="rounded-xl border border-stone-300 bg-white/70 px-3 py-2 text-left text-sm text-stone-800 transition hover:border-clay hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+                  className="shrink-0 border border-[#d8c9b1] bg-[#ffffff] px-3 py-2 font-sans text-[11px] font-bold text-[#6f3f25] transition hover:-translate-y-0.5 hover:border-[#b94636] hover:text-[#2a1c12] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
                 >
+                  <span className="mr-2 text-[#b94636]">{String(index + 1).padStart(2, "0")}</span>
                   {prompt}
                 </button>
               ))}
             </div>
           </section>
 
-          <section className="mt-6 grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={resetChat}
-              className="rounded-xl bg-stone-200 px-3 py-2 text-sm font-semibold text-stone-800 transition hover:bg-stone-300"
-            >
-              Reset window
-            </button>
-            <button
-              type="button"
-              onClick={runChecks}
-              className="rounded-xl bg-laurel px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#465137]"
-            >
-              Run self-test
-            </button>
-          </section>
-        </aside>
-
-        <section className="flex min-h-[70vh] flex-1 flex-col overflow-hidden rounded-2xl border border-stone-300/70 bg-white/82 shadow-soft lg:min-h-0">
-          <header className="border-b border-stone-200 bg-white/70 px-5 py-4">
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-clay">Current voice</p>
-                  <h2 className="mt-1 text-xl font-bold">{activePersona.label}</h2>
-                </div>
-                <div className="flex flex-wrap gap-2 text-xs font-semibold">
-                  <span className="rounded-full bg-stone-100 px-3 py-1 text-stone-700">Historically grounded voice</span>
-                  <span className="rounded-full bg-stone-100 px-3 py-1 text-stone-700">Separate voice window</span>
-                  {loading ? <span className="rounded-full bg-clay px-3 py-1 text-white">Thinking</span> : null}
-                </div>
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-3">
-                {personas.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setPersona(item.id)}
-                    className={`rounded-xl border px-3 py-2 text-left transition ${
-                      persona === item.id
-                        ? "border-clay bg-marble shadow-sm"
-                        : "border-stone-200 bg-white/70 hover:border-stone-400"
-                    }`}
-                  >
-                    <span className="flex items-center justify-between gap-3">
-                      <span className="flex min-w-0 items-center gap-2">
-                        <span className="text-lg">{item.icon}</span>
-                        <span className="truncate text-sm font-semibold">{item.label}</span>
-                      </span>
-                      <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[11px] font-bold text-stone-600">
-                        {messagesByPersona[item.id].length}
-                      </span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </header>
-
-          <div className="flex-1 space-y-4 overflow-y-auto px-4 py-5 sm:px-6">
-            {messages.map((message) => (
-              <article
-                key={message.id}
-                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm sm:max-w-[74%] ${
-                    message.role === "user"
-                      ? "bg-ink text-marble"
-                      : "border border-stone-200 bg-marble text-stone-900"
+          <div className="min-h-0 overflow-y-auto px-5 py-5 sm:px-7">
+            <div className="mx-auto max-w-5xl space-y-3">
+              {messages.map((message) => (
+                <article
+                  key={message.id}
+                  className={`grid gap-3 border-l-4 py-2 pl-3 sm:grid-cols-[8rem_minmax(0,1fr)] ${
+                    message.role === "user" ? "border-[#b94636]" : "border-[#6f3f25]"
                   }`}
                 >
-                  <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.18em] opacity-70">
+                  <p className="font-sans text-[10px] font-black uppercase tracking-[0.22em] text-[#765537]">
                     {message.role === "user" ? "You" : activePersona.label}
                   </p>
-                  <p className="whitespace-pre-wrap">{message.content}</p>
-                </div>
-              </article>
-            ))}
-            {loading ? (
-              <article className="flex justify-start">
-                <div className="rounded-2xl border border-stone-200 bg-marble px-4 py-3 text-sm text-stone-700 shadow-sm">
-                  {activePersona.label} considers his reply...
-                </div>
-              </article>
-            ) : null}
-            <div ref={messagesEndRef} />
+                  <p
+                    className={`whitespace-pre-wrap text-base leading-7 ${
+                      message.role === "user" ? "text-[#7a2d23]" : "text-[#3a2a1b]"
+                    }`}
+                  >
+                    {message.content}
+                  </p>
+                </article>
+              ))}
+              {loading ? (
+                <article className="grid gap-3 border-l-4 border-[#7b8d66] py-2 pl-3 sm:grid-cols-[8rem_minmax(0,1fr)]">
+                  <p className="font-sans text-[10px] font-black uppercase tracking-[0.22em] text-[#765537]">Status</p>
+                  <p className="font-sans text-sm text-[#52633d]">{activePersona.label} considers the record...</p>
+                </article>
+              ) : null}
+              <div ref={messagesEndRef} />
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="border-t border-stone-200 bg-white/75 p-4">
-            <div className="flex flex-col gap-3 sm:flex-row">
+          <form onSubmit={handleSubmit} className="border-t border-[#d8c9b1] bg-[#ffffff] px-5 py-4 sm:px-7">
+            <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_9rem]">
               <textarea
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={`Ask ${activePersona.label} about Rome, power, Pompey, the Senate, or legacy...`}
                 rows={2}
-                className="min-h-14 flex-1 resize-none rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm leading-6 outline-none transition placeholder:text-stone-400 focus:border-clay focus:ring-4 focus:ring-clay/15"
+                className="min-h-16 resize-none border border-[#d8c9b1] bg-[#ffffff] px-4 py-3 font-sans text-sm leading-6 text-[#2a1c12] outline-none transition placeholder:text-[#8d6b45] focus:border-[#b94636]"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || Boolean(loadingPersona)}
-                className="rounded-xl bg-clay px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#854f38] disabled:cursor-not-allowed disabled:opacity-55 sm:w-32"
+                className="border border-[#b94636] bg-[#b94636] px-5 py-3 font-sans text-xs font-black uppercase tracking-[0.18em] text-[#fff2d4] transition hover:-translate-y-0.5 hover:bg-[#8f2d25] disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-[#d8c9b1] disabled:bg-[#eee6d8] disabled:text-[#8d6b45]"
               >
                 Send
               </button>
