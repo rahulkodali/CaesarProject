@@ -263,13 +263,13 @@ export default function CaesarChatbot() {
 
   return (
     <main className="min-h-screen bg-[#ffffff] text-[#3a2a1b] lg:h-screen lg:overflow-hidden">
-      <div className="grid min-h-screen grid-cols-1 lg:h-screen lg:min-h-0 lg:grid-cols-[16rem_minmax(0,1fr)] lg:overflow-hidden">
+      <div className="grid min-h-screen grid-cols-1 lg:h-screen lg:min-h-0 lg:grid-cols-[14rem_minmax(0,1fr)] lg:overflow-hidden xl:grid-cols-[16rem_minmax(0,1fr)]">
         <aside className="border-b border-[#d8c9b1] bg-[#f7f3ec] lg:overflow-y-auto lg:border-b-0 lg:border-r">
-          <div className="p-3 sm:p-4 lg:p-5">
+          <div className="p-3 sm:p-4 xl:p-5">
             <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
               Roman Voice Archive
             </p>
-            <h1 className="mt-2 max-w-[12ch] text-3xl font-black leading-[0.9] tracking-tight text-[#2a1c12] sm:text-4xl lg:text-5xl">
+            <h1 className="mt-2 max-w-[12ch] text-3xl font-black leading-[0.9] tracking-tight text-[#2a1c12] sm:text-4xl xl:text-5xl">
               Talk to Julius Caesar
             </h1>
             <p className="mt-3 hidden border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] sm:block">
@@ -287,7 +287,7 @@ export default function CaesarChatbot() {
                   key={item.id}
                   type="button"
                   onClick={() => setPersona(item.id)}
-                  className={`group grid w-full grid-cols-1 items-center gap-1 border-b border-r border-[#ded0bb] px-2 py-2 text-center transition lg:grid-cols-[2.25rem_minmax(0,1fr)_2rem] lg:gap-0 lg:border-r-0 lg:px-4 lg:py-2.5 lg:text-left ${
+                  className={`group grid w-full grid-cols-1 items-center gap-1 border-b border-r border-[#ded0bb] px-2 py-2 text-center transition lg:grid-cols-[1.9rem_minmax(0,1fr)_1.65rem] lg:gap-0 lg:border-r-0 lg:px-3 lg:py-2 xl:grid-cols-[2.25rem_minmax(0,1fr)_2rem] xl:px-4 xl:py-2.5 lg:text-left ${
                     persona === item.id
                       ? "bg-[#3a2a1b] text-[#f4e2be]"
                       : "text-[#3a2a1b] hover:bg-[#f8f4ee]"
@@ -358,7 +358,7 @@ export default function CaesarChatbot() {
             </div>
           </details>
 
-          <section className="hidden space-y-4 p-4 lg:block lg:p-5">
+          <section className="hidden space-y-3 p-3 lg:block xl:space-y-4 xl:p-5">
             <InfoBlock title="How to Use This" mark="↳">
               Ask Caesar about the Senate, Pompey, the Rubicon, ambition, dictatorship, military loyalty, or legacy.
               Then switch personas to see how his answer changes when he is framed as a general, politician, or doomed
@@ -377,7 +377,7 @@ export default function CaesarChatbot() {
               </h2>
               <ol className="mt-3 space-y-2">
                 {caesarTimeline.map(([date, event]) => (
-                  <li key={date} className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-2 font-sans text-[11px] leading-4">
+                  <li key={date} className="grid grid-cols-[3.8rem_minmax(0,1fr)] gap-2 font-sans text-[11px] leading-4 xl:grid-cols-[4.5rem_minmax(0,1fr)]">
                     <span className="font-black text-[#7a2d23]">{date}</span>
                     <span className="text-[#5b422a]">{event}</span>
                   </li>
@@ -406,8 +406,8 @@ export default function CaesarChatbot() {
         </aside>
 
         <section className="flex min-h-[72vh] flex-col bg-[#ffffff] lg:grid lg:min-h-0 lg:grid-rows-[auto_auto_minmax(0,1fr)_auto] lg:overflow-hidden">
-          <header className="border-b border-[#d8c9b1] px-3 py-2.5 sm:px-6 sm:py-3">
-            <div className="grid gap-4 lg:grid-cols-[7rem_minmax(0,1fr)_17rem] lg:items-end">
+          <header className="border-b border-[#d8c9b1] px-3 py-2.5 sm:px-5 sm:py-3 xl:px-6">
+            <div className="grid gap-3 lg:grid-cols-[6.25rem_minmax(0,1fr)] lg:items-end xl:grid-cols-[7rem_minmax(0,1fr)_minmax(14rem,17rem)] xl:gap-4">
               <PixelCaesar persona={persona} speaking={loading || speakingPersona === persona} />
               <div>
                 <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
@@ -417,7 +417,7 @@ export default function CaesarChatbot() {
                   {activePersona.label}
                 </h2>
               </div>
-              <div className="hidden border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] sm:block">
+              <div className="hidden border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] sm:block lg:col-span-2 xl:col-span-1">
                 <p>{activePersona.description}</p>
                 {loading ? <p className="mt-1 font-black text-[#3a2a1b]">Caesar is composing a reply.</p> : null}
               </div>
@@ -431,7 +431,7 @@ export default function CaesarChatbot() {
             </p>
           </section>
 
-          <section className="border-b border-[#d8c9b1] bg-[#f3eee5] px-3 py-2 sm:px-6">
+          <section className="border-b border-[#d8c9b1] bg-[#f3eee5] px-3 py-2 sm:px-5 xl:px-6">
             <div className="mb-1 flex items-center justify-between gap-4 font-sans">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#765537] sm:tracking-[0.26em]">Demo Questions</p>
               <p className="shrink-0 text-[11px] font-bold text-[#7a2d23]">Swipe →</p>
@@ -463,7 +463,7 @@ export default function CaesarChatbot() {
             </div>
           </section>
 
-          <div className="px-3 py-3 sm:px-6 lg:min-h-0 lg:overflow-y-auto">
+          <div className="px-3 py-3 sm:px-5 lg:min-h-0 lg:overflow-y-auto xl:px-6">
             <div className="mx-auto max-w-5xl space-y-2.5">
               {messages.map((message) => (
                 <article
@@ -494,8 +494,8 @@ export default function CaesarChatbot() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 border-t border-[#d8c9b1] bg-[#ffffff] px-3 py-3 sm:px-6 lg:static">
-            <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_9rem] lg:grid-cols-[minmax(0,1fr)_8rem_11rem]">
+          <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 border-t border-[#d8c9b1] bg-[#ffffff] px-3 py-3 sm:px-5 lg:static xl:px-6">
+            <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_8rem] lg:grid-cols-[minmax(0,1fr)_6.75rem_8.75rem] xl:grid-cols-[minmax(0,1fr)_8rem_11rem] xl:gap-3">
               <textarea
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
@@ -511,7 +511,7 @@ export default function CaesarChatbot() {
               <button
                 type="submit"
                 disabled={(!compareMode && !input.trim()) || Boolean(loadingPersona)}
-                className="border border-[#b94636] bg-[#b94636] px-5 py-2.5 font-sans text-xs font-black uppercase tracking-[0.18em] text-[#fff2d4] transition hover:-translate-y-0.5 hover:bg-[#8f2d25] disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-[#d8c9b1] disabled:bg-[#eee6d8] disabled:text-[#8d6b45]"
+                className="border border-[#b94636] bg-[#b94636] px-3 py-2.5 font-sans text-xs font-black uppercase tracking-[0.12em] text-[#fff2d4] transition hover:-translate-y-0.5 hover:bg-[#8f2d25] disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-[#d8c9b1] disabled:bg-[#eee6d8] disabled:text-[#8d6b45] xl:px-5 xl:tracking-[0.18em]"
               >
                 {compareMode ? "Compare" : "Send"}
               </button>
@@ -519,13 +519,14 @@ export default function CaesarChatbot() {
                 type="button"
                 onClick={() => setCompareMode((current) => !current)}
                 disabled={Boolean(loadingPersona)}
-                className={`border px-4 py-2.5 font-sans text-xs font-black uppercase tracking-[0.12em] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 sm:col-span-2 lg:col-span-1 ${
+                className={`border px-3 py-2.5 font-sans text-[11px] font-black uppercase tracking-[0.08em] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 sm:col-span-2 lg:col-span-1 xl:px-4 xl:text-xs xl:tracking-[0.12em] ${
                   compareMode
                     ? "border-[#3a2a1b] bg-[#3a2a1b] text-[#fff2d4]"
                     : "border-[#6f3f25] bg-[#ffffff] text-[#6f3f25] hover:border-[#b94636] hover:text-[#b94636]"
                 }`}
               >
-                {compareMode ? "Compare On" : "Compare Mode"}
+                <span className="xl:hidden">{compareMode ? "On" : "Compare"}</span>
+                <span className="hidden xl:inline">{compareMode ? "Compare On" : "Compare Mode"}</span>
               </button>
             </div>
           </form>
