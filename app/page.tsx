@@ -262,14 +262,14 @@ export default function CaesarChatbot() {
   }
 
   return (
-    <main className="min-h-screen bg-[#ffffff] text-[#3a2a1b] lg:h-screen lg:overflow-hidden">
-      <div className="grid min-h-screen grid-cols-1 lg:h-screen lg:min-h-0 lg:grid-cols-[14rem_minmax(0,1fr)] lg:overflow-hidden xl:grid-cols-[16rem_minmax(0,1fr)]">
+    <main className="min-h-screen max-w-[100vw] overflow-x-hidden bg-[#ffffff] text-[#3a2a1b] lg:h-screen lg:overflow-hidden">
+      <div className="grid min-h-screen max-w-[100vw] grid-cols-1 overflow-x-hidden lg:h-screen lg:min-h-0 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)] lg:overflow-hidden">
         <aside className="border-b border-[#d8c9b1] bg-[#f7f3ec] lg:overflow-y-auto lg:border-b-0 lg:border-r">
-          <div className="p-3 sm:p-4 xl:p-5">
+          <div className="p-3 sm:p-4 lg:p-4 xl:p-5">
             <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
               Roman Voice Archive
             </p>
-            <h1 className="mt-2 max-w-[12ch] text-3xl font-black leading-[0.9] tracking-tight text-[#2a1c12] sm:text-4xl xl:text-5xl">
+            <h1 className="mt-2 max-w-[12ch] text-3xl font-black leading-[0.9] tracking-tight text-[#2a1c12] sm:text-4xl lg:text-4xl xl:text-5xl">
               Talk to Julius Caesar
             </h1>
             <p className="mt-3 hidden border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] sm:block">
@@ -287,7 +287,7 @@ export default function CaesarChatbot() {
                   key={item.id}
                   type="button"
                   onClick={() => setPersona(item.id)}
-                  className={`group grid w-full grid-cols-1 items-center gap-1 border-b border-r border-[#ded0bb] px-2 py-2 text-center transition lg:grid-cols-[1.9rem_minmax(0,1fr)_1.65rem] lg:gap-0 lg:border-r-0 lg:px-3 lg:py-2 xl:grid-cols-[2.25rem_minmax(0,1fr)_2rem] xl:px-4 xl:py-2.5 lg:text-left ${
+                  className={`group grid w-full grid-cols-1 items-center gap-1 border-b border-r border-[#ded0bb] px-2 py-2 text-center transition lg:grid-cols-[2rem_minmax(0,1fr)_1.75rem] xl:grid-cols-[2.25rem_minmax(0,1fr)_2rem] lg:gap-0 lg:border-r-0 lg:px-3 lg:px-3 xl:px-4 lg:py-2 xl:py-2.5 lg:text-left ${
                     persona === item.id
                       ? "bg-[#3a2a1b] text-[#f4e2be]"
                       : "text-[#3a2a1b] hover:bg-[#f8f4ee]"
@@ -324,7 +324,7 @@ export default function CaesarChatbot() {
             <button
               type="button"
               onClick={resetChat}
-              className="w-full px-4 py-2 text-[#6f3f25] transition hover:bg-[#eee6d8] lg:py-2.5"
+              className="w-full px-4 py-2 text-[#6f3f25] transition hover:bg-[#eee6d8] lg:py-2 xl:py-2.5"
             >
               Reset Current Voice
             </button>
@@ -358,7 +358,7 @@ export default function CaesarChatbot() {
             </div>
           </details>
 
-          <section className="hidden space-y-3 p-3 lg:block xl:space-y-4 xl:p-5">
+          <section className="hidden space-y-4 p-5 lg:block">
             <InfoBlock title="How to Use This" mark="↳">
               Ask Caesar about the Senate, Pompey, the Rubicon, ambition, dictatorship, military loyalty, or legacy.
               Then switch personas to see how his answer changes when he is framed as a general, politician, or doomed
@@ -405,11 +405,11 @@ export default function CaesarChatbot() {
           </section>
         </aside>
 
-        <section className="flex min-h-[72vh] flex-col bg-[#ffffff] lg:grid lg:min-h-0 lg:grid-rows-[auto_auto_minmax(0,1fr)_auto] lg:overflow-hidden">
-          <header className="border-b border-[#d8c9b1] px-3 py-2.5 sm:px-5 sm:py-3 xl:px-6">
-            <div className="grid gap-3 lg:grid-cols-[6.25rem_minmax(0,1fr)] lg:items-end xl:grid-cols-[7rem_minmax(0,1fr)_minmax(14rem,17rem)] xl:gap-4">
+        <section className="flex min-w-0 max-w-full flex-col overflow-hidden bg-[#ffffff] lg:grid lg:min-h-0 lg:grid-rows-[auto_auto_minmax(0,1fr)_auto]">
+          <header className="border-b border-[#d8c9b1] px-3 py-2.5 sm:px-5 sm:py-3 lg:px-5 xl:px-6">
+            <div className="grid min-w-0 gap-3 lg:grid-cols-[6rem_minmax(0,1fr)_minmax(13rem,18rem)] xl:grid-cols-[7rem_minmax(0,1fr)_minmax(15rem,20rem)] lg:items-end lg:gap-3 xl:gap-4">
               <PixelCaesar persona={persona} speaking={loading || speakingPersona === persona} />
-              <div>
+              <div className="min-w-0">
                 <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
                   Active Transcript
                 </p>
@@ -417,7 +417,7 @@ export default function CaesarChatbot() {
                   {activePersona.label}
                 </h2>
               </div>
-              <div className="hidden border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] sm:block lg:col-span-2 xl:col-span-1">
+              <div className="hidden min-w-0 border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] lg:block">
                 <p>{activePersona.description}</p>
                 {loading ? <p className="mt-1 font-black text-[#3a2a1b]">Caesar is composing a reply.</p> : null}
               </div>
@@ -431,14 +431,14 @@ export default function CaesarChatbot() {
             </p>
           </section>
 
-          <section className="border-b border-[#d8c9b1] bg-[#f3eee5] px-3 py-2 sm:px-5 xl:px-6">
+          <section className="min-w-0 border-b border-[#d8c9b1] bg-[#f3eee5] px-3 py-2 sm:px-5 lg:px-5 xl:px-6">
             <div className="mb-1 flex items-center justify-between gap-4 font-sans">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#765537] sm:tracking-[0.26em]">Demo Questions</p>
               <p className="shrink-0 text-[11px] font-bold text-[#7a2d23]">Swipe →</p>
             </div>
-            <div className="relative">
+            <div className="relative min-w-0 max-w-full overflow-hidden">
               <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-[#f3eee5] to-transparent" />
-              <div className="flex gap-3 overflow-x-auto border-y border-[#d8c9b1] py-1.5 pr-14 [scrollbar-color:#b94636_#f8f4ee] [scrollbar-width:thin]">
+              <div className="flex min-w-0 max-w-full gap-3 overflow-x-auto border-y border-[#d8c9b1] py-1.5 pr-14 [scrollbar-color:#b94636_#f8f4ee] [scrollbar-width:thin]">
                 {promptGroups.map((group) => (
                   <div key={group.title} className="shrink-0">
                     <p className="mb-1 font-sans text-[10px] font-black uppercase tracking-[0.18em] text-[#765537]">
@@ -463,7 +463,7 @@ export default function CaesarChatbot() {
             </div>
           </section>
 
-          <div className="px-3 py-3 sm:px-5 lg:min-h-0 lg:overflow-y-auto xl:px-6">
+          <div className="min-w-0 px-3 py-3 sm:px-5 lg:min-h-0 lg:overflow-y-auto lg:px-5 xl:px-6">
             <div className="mx-auto max-w-5xl space-y-2.5">
               {messages.map((message) => (
                 <article
@@ -494,8 +494,8 @@ export default function CaesarChatbot() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 border-t border-[#d8c9b1] bg-[#ffffff] px-3 py-3 sm:px-5 lg:static xl:px-6">
-            <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_8rem] lg:grid-cols-[minmax(0,1fr)_6.75rem_8.75rem] xl:grid-cols-[minmax(0,1fr)_8rem_11rem] xl:gap-3">
+          <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 min-w-0 border-t border-[#d8c9b1] bg-[#ffffff] px-3 py-3 sm:px-5 lg:static lg:px-5 xl:px-6">
+            <div className="flex min-w-0 flex-wrap gap-2 lg:grid lg:grid-cols-[minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_8rem_11rem] lg:gap-2 xl:gap-3">
               <textarea
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
@@ -506,12 +506,12 @@ export default function CaesarChatbot() {
                     : `Ask ${activePersona.label} about Rome, power, Pompey, the Senate, or legacy...`
                 }
                 rows={1}
-                className="min-h-12 resize-none border border-[#d8c9b1] bg-[#ffffff] px-4 py-2.5 font-sans text-sm leading-6 text-[#2a1c12] outline-none transition placeholder:text-[#8d6b45] focus:border-[#b94636]"
+                className="min-h-12 min-w-[16rem] flex-1 resize-none border border-[#d8c9b1] bg-[#ffffff] px-4 py-2.5 font-sans text-sm leading-6 text-[#2a1c12] outline-none transition placeholder:text-[#8d6b45] focus:border-[#b94636]"
               />
               <button
                 type="submit"
                 disabled={(!compareMode && !input.trim()) || Boolean(loadingPersona)}
-                className="border border-[#b94636] bg-[#b94636] px-3 py-2.5 font-sans text-xs font-black uppercase tracking-[0.12em] text-[#fff2d4] transition hover:-translate-y-0.5 hover:bg-[#8f2d25] disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-[#d8c9b1] disabled:bg-[#eee6d8] disabled:text-[#8d6b45] xl:px-5 xl:tracking-[0.18em]"
+                className="min-w-24 flex-1 border border-[#b94636] bg-[#b94636] px-3 py-2.5 font-sans text-xs font-black uppercase tracking-[0.12em] text-[#fff2d4] transition hover:-translate-y-0.5 hover:bg-[#8f2d25] disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-[#d8c9b1] disabled:bg-[#eee6d8] disabled:text-[#8d6b45] sm:flex-none lg:px-3 xl:px-5 lg:tracking-[0.12em] xl:tracking-[0.18em]"
               >
                 {compareMode ? "Compare" : "Send"}
               </button>
@@ -519,7 +519,7 @@ export default function CaesarChatbot() {
                 type="button"
                 onClick={() => setCompareMode((current) => !current)}
                 disabled={Boolean(loadingPersona)}
-                className={`border px-3 py-2.5 font-sans text-[11px] font-black uppercase tracking-[0.08em] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 sm:col-span-2 lg:col-span-1 xl:px-4 xl:text-xs xl:tracking-[0.12em] ${
+                className={`min-w-32 flex-1 border px-3 py-2.5 font-sans text-[11px] font-black uppercase tracking-[0.08em] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none lg:px-3 xl:px-4 lg:text-[11px] xl:text-xs lg:tracking-[0.08em] xl:tracking-[0.12em] ${
                   compareMode
                     ? "border-[#3a2a1b] bg-[#3a2a1b] text-[#fff2d4]"
                     : "border-[#6f3f25] bg-[#ffffff] text-[#6f3f25] hover:border-[#b94636] hover:text-[#b94636]"

@@ -15,6 +15,7 @@ body {
   background: #ffffff;
   color: #2f2418;
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  overflow-x: hidden;
 }
 
 button,
