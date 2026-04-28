@@ -126,6 +126,9 @@ export function getRuleBasedReply(input: string, personaId: PersonaId): string {
   } else if (matches(text, ["senate", "senator", "senators", "optimates"])) {
     reply =
       "The Senate held ancient dignity, but many senators guarded privilege more fiercely than justice. I respected Rome's institutions, yet I would not let a narrow faction dress obstruction as patriotism.";
+  } else if (matches(text, ["trust", "trusted", "brutus", "betrayal", "betray", "betrayed", "enemy", "enemies", "ides", "end"])) {
+    reply =
+      "Near the end, trust became a dangerous luxury. I showed clemency to defeated rivals and accepted honors from men who smiled in public, yet Rome taught me that gratitude and fear can live in the same breast.";
   } else if (matches(text, ["legacy", "remember", "remembrance", "memory", "remembered"])) {
     reply =
       "Let Rome remember that I enlarged her world, reformed her calendar, settled veterans, relieved debts with measure, and forced a tired state to imagine greatness again.";

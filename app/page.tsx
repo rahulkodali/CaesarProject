@@ -101,7 +101,6 @@ const caesarTimeline = [
 export default function CaesarChatbot() {
   const [persona, setPersona] = useState<PersonaId>("general");
   const [input, setInput] = useState("");
-  const [compareMode, setCompareMode] = useState(false);
   const [messagesByPersona, setMessagesByPersona] =
     useState<Record<PersonaId, DisplayMessage[]>>(initialMessagesByPersona);
   const [loadingPersona, setLoadingPersona] = useState<PersonaId | null>(null);
@@ -152,29 +151,37 @@ export default function CaesarChatbot() {
 
     setLoadingPersona(targetPersona);
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: trimmed,
-          persona: targetPersona,
-          history: historyForRequest.slice(-10)
-        })
-      });
-
-      const data = await response.json();
-      if (!response.ok || !data.reply) {
-        throw new Error(data.error ?? "The LLM route did not return a reply.");
-      }
-
-      appendAssistant(data.reply, targetPersona);
+      appendAssistant(await requestCaesarReply(trimmed, targetPersona, historyForRequest), targetPersona);
     } catch {
       appendAssistant(getRuleBasedReply(trimmed, targetPersona), targetPersona);
     } finally {
       setLoadingPersona(null);
     }
+  }
+
+  async function requestCaesarReply(
+    message: string,
+    targetPersona: PersonaId,
+    history: Pick<ChatMessage, "role" | "content">[]
+  ): Promise<string> {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message,
+        persona: targetPersona,
+        history: history.slice(-10)
+      })
+    });
+
+    const data = await response.json();
+    if (!response.ok || !data.reply) {
+      throw new Error(data.error ?? "The LLM route did not return a reply.");
+    }
+
+    return data.reply;
   }
 
   function appendAssistant(content: string, targetPersona = persona) {
@@ -201,22 +208,12 @@ export default function CaesarChatbot() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (compareMode) {
-      comparePersonas(input);
-      return;
-    }
-
     void sendMessage(input);
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
-      if (compareMode) {
-        comparePersonas(input);
-        return;
-      }
-
       void sendMessage(input);
     }
   }
@@ -229,36 +226,67 @@ export default function CaesarChatbot() {
     setInput("");
   }
 
-  function comparePersonas(text = input) {
+  async function comparePersonas(text = input) {
     if (loadingPersona) {
       return;
     }
 
-    const prompt = text.trim() || "Was your ambition good for Rome or only for yourself?";
-    const userMessage: DisplayMessage = {
-      id: crypto.randomUUID(),
-      role: "user",
-      content: prompt
-    };
-    const comparison = [
-      `Comparing Caesar's voices for: "${prompt}"`,
-      "",
-      "General Caesar ⚔️",
-      getRuleBasedReply(prompt, "general"),
-      "",
-      "Political Caesar 🏛️",
-      getRuleBasedReply(prompt, "political"),
-      "",
-      "Final Days Caesar 🗡️",
-      getRuleBasedReply(prompt, "final-days")
-    ].join("\n");
+    const typedPrompt = text.trim();
+    const lastUserPrompt = [...messagesByPersona[persona]]
+      .reverse()
+      .find((message) => message.role === "user")?.content;
+    const prompt = typedPrompt || lastUserPrompt || "Was your ambition good for Rome or only for yourself?";
 
-    setMessagesByPersona((current) => ({
-      ...current,
-      [persona]: [...current[persona], userMessage]
-    }));
-    appendAssistant(comparison);
+    if (typedPrompt) {
+      const userMessage: DisplayMessage = {
+        id: crypto.randomUUID(),
+        role: "user",
+        content: prompt
+      };
+
+      setMessagesByPersona((current) => ({
+        ...current,
+        [persona]: [...current[persona], userMessage]
+      }));
+    }
+
     setInput("");
+    setLoadingPersona(persona);
+
+    try {
+      const comparePersonaIds: PersonaId[] = ["general", "political", "final-days"];
+      const replies = await Promise.all(
+        comparePersonaIds.map(async (targetPersona) => {
+          const personaHistory = messagesByPersona[targetPersona].map(({ role, content }) => ({ role, content }));
+
+          try {
+            return await requestCaesarReply(prompt, targetPersona, [
+              ...personaHistory,
+              { role: "user", content: prompt }
+            ]);
+          } catch {
+            return getRuleBasedReply(prompt, targetPersona);
+          }
+        })
+      );
+
+      appendAssistant(
+        [
+          `Comparing Caesar's voices for: "${prompt}"`,
+          "",
+          "General Caesar ⚔️",
+          replies[0],
+          "",
+          "Political Caesar 🏛️",
+          replies[1],
+          "",
+          "Final Days Caesar 🗡️",
+          replies[2]
+        ].join("\n")
+      );
+    } finally {
+      setLoadingPersona(null);
+    }
   }
 
   return (
@@ -500,33 +528,24 @@ export default function CaesarChatbot() {
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={
-                  compareMode
-                    ? "Enter one prompt to compare all three Caesar voices..."
-                    : `Ask ${activePersona.label} about Rome, power, Pompey, the Senate, or legacy...`
-                }
+                placeholder={`Ask ${activePersona.label} about Rome, power, Pompey, the Senate, or legacy...`}
                 rows={1}
                 className="min-h-12 min-w-[16rem] flex-1 resize-none border border-[#d8c9b1] bg-[#ffffff] px-4 py-2.5 font-sans text-sm leading-6 text-[#2a1c12] outline-none transition placeholder:text-[#8d6b45] focus:border-[#b94636]"
               />
               <button
                 type="submit"
-                disabled={(!compareMode && !input.trim()) || Boolean(loadingPersona)}
+                disabled={!input.trim() || Boolean(loadingPersona)}
                 className="min-w-24 flex-1 border border-[#b94636] bg-[#b94636] px-3 py-2.5 font-sans text-xs font-black uppercase tracking-[0.12em] text-[#fff2d4] transition hover:-translate-y-0.5 hover:bg-[#8f2d25] disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-[#d8c9b1] disabled:bg-[#eee6d8] disabled:text-[#8d6b45] sm:flex-none lg:px-3 xl:px-5 lg:tracking-[0.12em] xl:tracking-[0.18em]"
               >
-                {compareMode ? "Compare" : "Send"}
+                Send
               </button>
               <button
                 type="button"
-                onClick={() => setCompareMode((current) => !current)}
+                onClick={() => void comparePersonas()}
                 disabled={Boolean(loadingPersona)}
-                className={`min-w-32 flex-1 border px-3 py-2.5 font-sans text-[11px] font-black uppercase tracking-[0.08em] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none lg:px-3 xl:px-4 lg:text-[11px] xl:text-xs lg:tracking-[0.08em] xl:tracking-[0.12em] ${
-                  compareMode
-                    ? "border-[#3a2a1b] bg-[#3a2a1b] text-[#fff2d4]"
-                    : "border-[#6f3f25] bg-[#ffffff] text-[#6f3f25] hover:border-[#b94636] hover:text-[#b94636]"
-                }`}
+                className="min-w-32 flex-1 border border-[#6f3f25] bg-[#ffffff] px-3 py-2.5 font-sans text-[11px] font-black uppercase tracking-[0.08em] text-[#6f3f25] transition hover:-translate-y-0.5 hover:border-[#b94636] hover:text-[#b94636] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none lg:px-3 lg:text-[11px] lg:tracking-[0.08em] xl:px-4 xl:text-xs xl:tracking-[0.12em]"
               >
-                <span className="xl:hidden">{compareMode ? "On" : "Compare"}</span>
-                <span className="hidden xl:inline">{compareMode ? "Compare On" : "Compare Mode"}</span>
+                Compare
               </button>
             </div>
           </form>
