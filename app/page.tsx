@@ -44,9 +44,9 @@ const initialMessagesByPersona: Record<PersonaId, DisplayMessage[]> = {
 };
 
 const personaAccent: Record<PersonaId, string> = {
-  general: "border-[#6f3f25] text-[#4a2b1a]",
-  political: "border-[#b94636] text-[#7a2d23]",
-  "final-days": "border-[#61764a] text-[#52633d]"
+  general: "border-[#8a6a3a] text-[#6b5228]",
+  political: "border-[#1f6f78] text-[#123f44]",
+  "final-days": "border-[#4f6b5e] text-[#354d43]"
 };
 
 const personaTone: Record<PersonaId, string> = {
@@ -300,23 +300,23 @@ export default function OdysseusChatbot() {
   }
 
   return (
-    <main className="min-h-screen max-w-[100vw] overflow-x-hidden bg-[#ffffff] text-[#3a2a1b] lg:h-screen lg:overflow-hidden">
+    <main className="min-h-screen max-w-[100vw] overflow-x-hidden bg-[#ffffff] text-[#1c2b30] lg:h-screen lg:overflow-hidden">
       <div className="grid min-h-screen max-w-[100vw] grid-cols-1 overflow-x-hidden lg:h-screen lg:min-h-0 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)] lg:overflow-hidden">
-        <aside className="border-b border-[#d8c9b1] bg-[#f7f3ec] lg:overflow-y-auto lg:border-b-0 lg:border-r">
+        <aside className="border-b border-[#d6dccb] bg-[#eef1e6] lg:overflow-y-auto lg:border-b-0 lg:border-r">
           <div className="p-3 sm:p-4 lg:p-4 xl:p-5">
-            <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
+            <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#1f6f78]">
               Mythic Voice Archive
             </p>
-            <h1 className="mt-2 max-w-[12ch] text-3xl font-black leading-[0.9] tracking-tight text-[#2a1c12] sm:text-4xl lg:text-4xl xl:text-5xl">
+            <h1 className="mt-2 max-w-[12ch] text-3xl font-black leading-[0.9] tracking-tight text-[#16221d] sm:text-4xl lg:text-4xl xl:text-5xl">
               Ask Odysseus
             </h1>
-            <p className="mt-3 hidden border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] sm:block">
+            <p className="mt-3 hidden border-l-4 border-[#1f6f78] pl-3 font-sans text-xs leading-5 text-[#4b5647] sm:block">
               A myth-grounded conversation with Odysseus as hero, trickster, and returned king.
             </p>
           </div>
 
-          <section className="border-y border-[#d8c9b1]">
-            <h2 className="border-b border-[#d8c9b1] px-3 py-1.5 font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#765537] sm:px-5 sm:py-2">
+          <section className="border-y border-[#d6dccb]">
+            <h2 className="border-b border-[#d6dccb] px-3 py-1.5 font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#5c6b52] sm:px-5 sm:py-2">
               Voice Index
             </h2>
             <div className="grid grid-cols-3 lg:block">
@@ -325,10 +325,10 @@ export default function OdysseusChatbot() {
                   key={item.id}
                   type="button"
                   onClick={() => setPersona(item.id)}
-                  className={`group grid w-full grid-cols-1 items-center gap-1 border-b border-r border-[#ded0bb] px-2 py-2 text-center transition lg:grid-cols-[2rem_minmax(0,1fr)_1.75rem] xl:grid-cols-[2.25rem_minmax(0,1fr)_2rem] lg:gap-0 lg:border-r-0 lg:px-3 lg:px-3 xl:px-4 lg:py-2 xl:py-2.5 lg:text-left ${
+                  className={`group grid w-full grid-cols-1 items-center gap-1 border-b border-r border-[#cfd6c4] px-2 py-2 text-center transition lg:grid-cols-[2rem_minmax(0,1fr)_1.75rem] xl:grid-cols-[2.25rem_minmax(0,1fr)_2rem] lg:gap-0 lg:border-r-0 lg:px-3 lg:px-3 xl:px-4 lg:py-2 xl:py-2.5 lg:text-left ${
                     persona === item.id
-                      ? "bg-[#3a2a1b] text-[#f4e2be]"
-                      : "text-[#3a2a1b] hover:bg-[#f8f4ee]"
+                      ? "bg-[#1c2b30] text-[#f0e6c8]"
+                      : "text-[#1c2b30] hover:bg-[#eef2ec]"
                   }`}
                 >
                 <span
@@ -340,7 +340,7 @@ export default function OdysseusChatbot() {
                   <span className="block text-xs font-black leading-4 lg:text-sm">{item.label}</span>
                   <span
                     className={`mt-1 hidden truncate font-sans text-[11px] sm:block ${
-                      persona === item.id ? "text-[#ead5af]" : "text-[#684b31]"
+                      persona === item.id ? "text-[#ead9ad]" : "text-[#55604f]"
                     }`}
                   >
                     {personaTone[item.id]}
@@ -348,7 +348,7 @@ export default function OdysseusChatbot() {
                 </span>
                 <span
                   className={`hidden justify-self-end border px-1.5 py-0.5 font-sans text-[10px] font-black lg:block ${
-                    persona === item.id ? "border-[#f4e2be]" : "border-[#d8c9b1] text-[#5b422a]"
+                    persona === item.id ? "border-[#f0e6c8]" : "border-[#d6dccb] text-[#4b5647]"
                   }`}
                 >
                   {messagesByPersona[item.id].length}
@@ -358,18 +358,18 @@ export default function OdysseusChatbot() {
             </div>
           </section>
 
-          <section className="border-b border-[#d8c9b1] font-sans text-xs font-black uppercase tracking-[0.12em]">
+          <section className="border-b border-[#d6dccb] font-sans text-xs font-black uppercase tracking-[0.12em]">
             <button
               type="button"
               onClick={resetChat}
-              className="w-full px-4 py-2 text-[#6f3f25] transition hover:bg-[#eee6d8] lg:py-2 xl:py-2.5"
+              className="w-full px-4 py-2 text-[#8a6a3a] transition hover:bg-[#e3e8d9] lg:py-2 xl:py-2.5"
             >
               Reset Current Voice
             </button>
           </section>
 
-          <details className="border-b border-[#d8c9b1] bg-[#ffffff] p-3 font-sans text-xs text-[#5b422a] lg:hidden">
-            <summary className="cursor-pointer font-black uppercase tracking-[0.18em] text-[#765537]">
+          <details className="border-b border-[#d6dccb] bg-[#ffffff] p-3 font-sans text-xs text-[#4b5647] lg:hidden">
+            <summary className="cursor-pointer font-black uppercase tracking-[0.18em] text-[#5c6b52]">
               Mythological Grounding
             </summary>
             <div className="mt-3 space-y-3 leading-5">
@@ -381,7 +381,7 @@ export default function OdysseusChatbot() {
               <ol className="space-y-1">
                 {odysseyTimeline.map(([date, event]) => (
                   <li key={date}>
-                    <span className="font-black text-[#7a2d23]">{date}</span> — {event}
+                    <span className="font-black text-[#123f44]">{date}</span> — {event}
                   </li>
                 ))}
               </ol>
@@ -409,15 +409,15 @@ export default function OdysseusChatbot() {
               Odysseus&apos; voice, not real ancient speech.
             </InfoBlock>
 
-            <section className="border border-[#d8c9b1] bg-[#ffffff] p-3">
-              <h2 className="font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#765537]">
+            <section className="border border-[#d6dccb] bg-[#ffffff] p-3">
+              <h2 className="font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#5c6b52]">
                 Odyssey Timeline
               </h2>
               <ol className="mt-3 space-y-2">
                 {odysseyTimeline.map(([date, event]) => (
                   <li key={date} className="grid grid-cols-[6.5rem_minmax(0,1fr)] gap-2 font-sans text-[11px] leading-4 xl:grid-cols-[7.5rem_minmax(0,1fr)]">
-                    <span className="font-black text-[#7a2d23]">{date}</span>
-                    <span className="text-[#5b422a]">{event}</span>
+                    <span className="font-black text-[#123f44]">{date}</span>
+                    <span className="text-[#4b5647]">{event}</span>
                   </li>
                 ))}
               </ol>
@@ -443,43 +443,43 @@ export default function OdysseusChatbot() {
         </aside>
 
         <section className="flex min-w-0 max-w-full flex-col overflow-hidden bg-[#ffffff] lg:grid lg:min-h-0 lg:grid-rows-[auto_auto_minmax(0,1fr)_auto]">
-          <header className="border-b border-[#d8c9b1] px-3 py-2.5 sm:px-5 sm:py-3 lg:px-5 xl:px-6">
+          <header className="border-b border-[#d6dccb] px-3 py-2.5 sm:px-5 sm:py-3 lg:px-5 xl:px-6">
             <div className="grid min-w-0 gap-3 lg:grid-cols-[6rem_minmax(0,1fr)_minmax(13rem,18rem)] xl:grid-cols-[7rem_minmax(0,1fr)_minmax(15rem,20rem)] lg:items-end lg:gap-3 xl:gap-4">
               <PixelOdysseus persona={persona} speaking={loading || speakingPersona === persona} />
               <div className="min-w-0">
-                <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
+                <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#1f6f78]">
                   Active Transcript
                 </p>
-                <h2 className="mt-1 text-2xl font-black leading-none text-[#2a1c12] sm:text-4xl">
+                <h2 className="mt-1 text-2xl font-black leading-none text-[#16221d] sm:text-4xl">
                   {activePersona.label}
                 </h2>
               </div>
-              <div className="hidden min-w-0 border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] lg:block">
+              <div className="hidden min-w-0 border-l-4 border-[#1f6f78] pl-3 font-sans text-xs leading-5 text-[#4b5647] lg:block">
                 <p>{activePersona.description}</p>
-                {loading ? <p className="mt-1 font-black text-[#3a2a1b]">Odysseus is composing a reply.</p> : null}
+                {loading ? <p className="mt-1 font-black text-[#1c2b30]">Odysseus is composing a reply.</p> : null}
               </div>
             </div>
           </header>
 
-          <section className="border-b border-[#d8c9b1] bg-[#f8f4ee] px-3 py-2 font-sans text-[11px] leading-4 text-[#5b422a] lg:hidden">
+          <section className="border-b border-[#d6dccb] bg-[#eef2ec] px-3 py-2 font-sans text-[11px] leading-4 text-[#4b5647] lg:hidden">
             <p>
-              <span className="font-black uppercase tracking-[0.18em] text-[#765537]">Mythological Grounding</span>{" "}
+              <span className="font-black uppercase tracking-[0.18em] text-[#5c6b52]">Mythological Grounding</span>{" "}
               Odysseus in Homer&apos;s Odyssey: heroism, lying, reputation, Penelope, Athena, xenia, revenge, and
               homecoming.
             </p>
           </section>
 
-          <section className="min-w-0 border-b border-[#d8c9b1] bg-[#f3eee5] px-3 py-2 sm:px-5 lg:px-5 xl:px-6">
+          <section className="min-w-0 border-b border-[#d6dccb] bg-[#e9ede3] px-3 py-2 sm:px-5 lg:px-5 xl:px-6">
             <div className="mb-1 flex items-center justify-between gap-4 font-sans">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#765537] sm:tracking-[0.26em]">Demo Questions</p>
-              <p className="shrink-0 text-[11px] font-bold text-[#7a2d23]">Swipe →</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#5c6b52] sm:tracking-[0.26em]">Demo Questions</p>
+              <p className="shrink-0 text-[11px] font-bold text-[#123f44]">Swipe →</p>
             </div>
             <div className="relative min-w-0 max-w-full overflow-hidden">
-              <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-[#f3eee5] to-transparent" />
-              <div className="flex min-w-0 max-w-full gap-3 overflow-x-auto border-y border-[#d8c9b1] py-1.5 pr-14 [scrollbar-color:#b94636_#f8f4ee] [scrollbar-width:thin]">
+              <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-[#e9ede3] to-transparent" />
+              <div className="flex min-w-0 max-w-full gap-3 overflow-x-auto border-y border-[#d6dccb] py-1.5 pr-14 [scrollbar-color:#1f6f78_#eef2ec] [scrollbar-width:thin]">
                 {promptGroups.map((group) => (
                   <div key={group.title} className="shrink-0">
-                    <p className="mb-1 font-sans text-[10px] font-black uppercase tracking-[0.18em] text-[#765537]">
+                    <p className="mb-1 font-sans text-[10px] font-black uppercase tracking-[0.18em] text-[#5c6b52]">
                       {group.title}
                     </p>
                     <div className="flex gap-2">
@@ -489,7 +489,7 @@ export default function OdysseusChatbot() {
                           type="button"
                           onClick={() => void sendMessage(prompt)}
                           disabled={Boolean(loadingPersona)}
-                          className="max-w-[16rem] shrink-0 border border-[#d8c9b1] bg-[#ffffff] px-2.5 py-1.5 font-sans text-[11px] font-bold text-[#6f3f25] transition hover:-translate-y-0.5 hover:border-[#b94636] hover:text-[#2a1c12] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="max-w-[16rem] shrink-0 border border-[#d6dccb] bg-[#ffffff] px-2.5 py-1.5 font-sans text-[11px] font-bold text-[#8a6a3a] transition hover:-translate-y-0.5 hover:border-[#1f6f78] hover:text-[#16221d] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           {prompt}
                         </button>
@@ -507,15 +507,15 @@ export default function OdysseusChatbot() {
                 <article
                   key={message.id}
                   className={`grid gap-2 border-l-4 py-1.5 pl-3 sm:grid-cols-[7rem_minmax(0,1fr)] ${
-                    message.role === "user" ? "border-[#b94636]" : "border-[#6f3f25]"
+                    message.role === "user" ? "border-[#1f6f78]" : "border-[#8a6a3a]"
                   }`}
                 >
-                  <p className="font-sans text-[10px] font-black uppercase tracking-[0.22em] text-[#765537]">
+                  <p className="font-sans text-[10px] font-black uppercase tracking-[0.22em] text-[#5c6b52]">
                     {message.role === "user" ? "You" : activePersona.label}
                   </p>
                   <p
                     className={`whitespace-pre-wrap text-sm leading-6 ${
-                      message.role === "user" ? "text-[#7a2d23]" : "text-[#3a2a1b]"
+                      message.role === "user" ? "text-[#123f44]" : "text-[#1c2b30]"
                     }`}
                   >
                     {message.content}
@@ -524,15 +524,15 @@ export default function OdysseusChatbot() {
               ))}
               {loading ? (
                 <article className="grid gap-2 border-l-4 border-[#7b8d66] py-1.5 pl-3 sm:grid-cols-[7rem_minmax(0,1fr)]">
-                  <p className="font-sans text-[10px] font-black uppercase tracking-[0.22em] text-[#765537]">Status</p>
-                  <p className="font-sans text-sm text-[#52633d]">{activePersona.label} considers the wine-dark sea...</p>
+                  <p className="font-sans text-[10px] font-black uppercase tracking-[0.22em] text-[#5c6b52]">Status</p>
+                  <p className="font-sans text-sm text-[#354d43]">{activePersona.label} considers the wine-dark sea...</p>
                 </article>
               ) : null}
               <div ref={messagesEndRef} />
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 min-w-0 border-t border-[#d8c9b1] bg-[#ffffff] px-3 py-3 sm:px-5 lg:static lg:px-5 xl:px-6">
+          <form onSubmit={handleSubmit} className="sticky bottom-0 z-20 min-w-0 border-t border-[#d6dccb] bg-[#ffffff] px-3 py-3 sm:px-5 lg:static lg:px-5 xl:px-6">
             <div className="flex min-w-0 flex-wrap gap-2 lg:grid lg:grid-cols-[minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_8rem_11rem] lg:gap-2 xl:gap-3">
               <textarea
                 value={input}
@@ -540,12 +540,12 @@ export default function OdysseusChatbot() {
                 onKeyDown={handleKeyDown}
                 placeholder={`Ask ${activePersona.label} about heroism, homecoming, Penelope, Athena, or revenge...`}
                 rows={1}
-                className="min-h-12 min-w-[16rem] flex-1 resize-none border border-[#d8c9b1] bg-[#ffffff] px-4 py-2.5 font-sans text-sm leading-6 text-[#2a1c12] outline-none transition placeholder:text-[#8d6b45] focus:border-[#b94636]"
+                className="min-h-12 min-w-[16rem] flex-1 resize-none border border-[#d6dccb] bg-[#ffffff] px-4 py-2.5 font-sans text-sm leading-6 text-[#16221d] outline-none transition placeholder:text-[#7a8574] focus:border-[#1f6f78]"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || Boolean(loadingPersona)}
-                className="min-w-24 flex-1 border border-[#b94636] bg-[#b94636] px-3 py-2.5 font-sans text-xs font-black uppercase tracking-[0.12em] text-[#fff2d4] transition hover:-translate-y-0.5 hover:bg-[#8f2d25] disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-[#d8c9b1] disabled:bg-[#eee6d8] disabled:text-[#8d6b45] sm:flex-none lg:px-3 xl:px-5 lg:tracking-[0.12em] xl:tracking-[0.18em]"
+                className="min-w-24 flex-1 border border-[#1f6f78] bg-[#1f6f78] px-3 py-2.5 font-sans text-xs font-black uppercase tracking-[0.12em] text-[#fff2d4] transition hover:-translate-y-0.5 hover:bg-[#17565c] disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-[#d6dccb] disabled:bg-[#e3e8d9] disabled:text-[#7a8574] sm:flex-none lg:px-3 xl:px-5 lg:tracking-[0.12em] xl:tracking-[0.18em]"
               >
                 Send
               </button>
@@ -553,7 +553,7 @@ export default function OdysseusChatbot() {
                 type="button"
                 onClick={() => void comparePersonas()}
                 disabled={Boolean(loadingPersona)}
-                className="min-w-32 flex-1 border border-[#6f3f25] bg-[#ffffff] px-3 py-2.5 font-sans text-[11px] font-black uppercase tracking-[0.08em] text-[#6f3f25] transition hover:-translate-y-0.5 hover:border-[#b94636] hover:text-[#b94636] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none lg:px-3 lg:text-[11px] lg:tracking-[0.08em] xl:px-4 xl:text-xs xl:tracking-[0.12em]"
+                className="min-w-32 flex-1 border border-[#8a6a3a] bg-[#ffffff] px-3 py-2.5 font-sans text-[11px] font-black uppercase tracking-[0.08em] text-[#8a6a3a] transition hover:-translate-y-0.5 hover:border-[#1f6f78] hover:text-[#1f6f78] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none lg:px-3 lg:text-[11px] lg:tracking-[0.08em] xl:px-4 xl:text-xs xl:tracking-[0.12em]"
               >
                 Compare
               </button>
@@ -566,42 +566,45 @@ export default function OdysseusChatbot() {
 }
 
 function PixelOdysseus({ persona, speaking }: { persona: PersonaId; speaking: boolean }) {
-  const accent = persona === "political" ? "bg-[#b94636]" : persona === "final-days" ? "bg-[#273526]" : "bg-[#6f3f25]";
-  const frame = persona === "political" ? "bg-[#fff8e8]" : persona === "final-days" ? "bg-[#eee9df]" : "bg-[#f7f3ec]";
-  const brow = persona === "final-days" ? "bg-[#2a1c12]" : "bg-[#7a4f32]";
-  const robe = persona === "political" ? "bg-[#f7f1e6]" : persona === "final-days" ? "bg-[#273526]" : "bg-[#f0d8b0]";
+  const accent = persona === "political" ? "bg-[#1f6f78]" : persona === "final-days" ? "bg-[#3a4a3f]" : "bg-[#a3822f]";
+  const frame = persona === "political" ? "bg-[#f2ede0]" : persona === "final-days" ? "bg-[#e3e8d9]" : "bg-[#eef1e6]";
+  const brow = "bg-[#5a4128]";
+  const robe = persona === "political" ? "bg-[#e6ded0]" : persona === "final-days" ? "bg-[#4a5a4c]" : "bg-[#c9a24a]";
 
   return (
-    <div className={`relative hidden h-24 w-24 self-start border border-[#d8c9b1] p-3 shadow-[inset_0_0_0_3px_#ffffff] lg:block ${frame}`}>
-      <div className="absolute left-3 top-3 h-2 w-2 bg-[#b94636]" />
-      <div className="absolute right-3 top-3 h-2 w-6 bg-[#d8c9b1]" />
+    <div className={`relative hidden h-24 w-24 self-start border border-[#d6dccb] p-3 shadow-[inset_0_0_0_3px_#ffffff] lg:block ${frame}`}>
+      <div className="absolute left-3 top-3 h-2 w-2 bg-[#1f6f78]" />
+      <div className="absolute right-3 top-3 h-2 w-6 bg-[#d6dccb]" />
 
       {persona === "general" ? (
         <>
-          <div className="absolute left-[43px] top-1 h-6 w-3 bg-[#9b2f27]" />
-          <div className="absolute left-[36px] top-2 h-5 w-7 bg-[#b94636]" />
-          <div className="absolute left-[31px] top-6 h-3 w-16 bg-[#7f745e]" />
-          <div className="absolute left-[28px] top-8 h-7 w-10 bg-[#9d9685]" />
-          <div className="absolute left-[23px] top-[31px] h-6 w-3 bg-[#7f745e]" />
-          <div className="absolute right-[23px] top-[31px] h-6 w-3 bg-[#7f745e]" />
-          <div className="absolute left-[37px] top-[38px] h-2 w-6 bg-[#d8d2b8]" />
+          {/* Corinthian helmet: horsehair crest ridge over the crown, bronze dome, nose guard, cheek pieces */}
+          <div className="absolute left-[41px] top-0 h-5 w-4 rounded-full bg-[#241d16]" />
+          <div className="absolute left-[27px] top-3 h-7 w-[46px] rounded-t-full bg-[#a3822f]" />
+          <div className="absolute left-[43px] top-6 h-9 w-2 bg-[#8a6a3a]" />
+          <div className="absolute left-[22px] top-8 h-9 w-3 bg-[#8a6a3a]" />
+          <div className="absolute right-[22px] top-8 h-9 w-3 bg-[#8a6a3a]" />
         </>
       ) : null}
 
       {persona === "political" ? (
         <>
-          <div className="absolute left-6 top-5 h-2 w-12 bg-[#61764a]" />
-          <div className="absolute left-5 top-4 h-3 w-3 bg-[#7b8d66]" />
-          <div className="absolute left-[38px] top-3 h-3 w-3 bg-[#7b8d66]" />
-          <div className="absolute right-5 top-4 h-3 w-3 bg-[#7b8d66]" />
+          {/* traveler's pilos cap, tilted for a sly disguised look, with Athena's owl on the shoulder */}
+          <div className="absolute left-7 top-2 h-5 w-10 rounded-t-full bg-[#c9a24a]" />
+          <div className="absolute left-[27px] top-6 h-1.5 w-11 bg-[#a3822f]" />
+          <div className="absolute right-1 top-8 h-5 w-4 rounded-t-full bg-[#5c6b52]" />
+          <div className="absolute right-3 top-9 h-1.5 w-1.5 rounded-full bg-[#eef2ec]" />
+          <div className="absolute right-[7px] top-[46px] h-1.5 w-2 bg-[#c9a24a]" />
         </>
       ) : null}
 
       {persona === "final-days" ? (
         <>
-          <div className="absolute left-3 top-6 h-14 w-5 bg-[#273526]" />
-          <div className="absolute right-3 top-6 h-14 w-5 bg-[#273526]" />
-          <div className="absolute right-6 top-4 h-7 w-2 rotate-45 bg-[#9d9a90]" />
+          {/* ragged beggar's hood and cloak, with the great bow slung across the back */}
+          <div className="absolute left-4 top-2 h-8 w-[68px] rounded-t-full bg-[#3a4a3f]" />
+          <div className="absolute left-3 top-6 h-16 w-6 bg-[#3a4a3f]" />
+          <div className="absolute right-3 top-6 h-16 w-6 bg-[#3a4a3f]" />
+          <div className="absolute right-4 top-2 h-20 w-1.5 rotate-[20deg] rounded-full bg-[#8a6a3a]" />
         </>
       ) : null}
 
@@ -613,28 +616,33 @@ function PixelOdysseus({ persona, speaking }: { persona: PersonaId; speaking: bo
 
       <div className={`absolute left-8 top-[48px] h-1 w-3 ${brow}`} />
       <div className={`absolute right-8 top-[48px] h-1 w-3 ${brow}`} />
-      <div className="absolute left-8 top-[54px] h-1.5 w-2.5 bg-[#2a1c12]" />
-      <div className="absolute right-8 top-[54px] h-1.5 w-2.5 bg-[#2a1c12]" />
+      <div className="absolute left-8 top-[54px] h-1.5 w-2.5 bg-[#16221d]" />
+      <div className="absolute right-8 top-[54px] h-1.5 w-2.5 bg-[#16221d]" />
       <div className="absolute left-[44px] top-[60px] h-2 w-2 bg-[#7a4f32]" />
-      <div className={`pixel-odysseus-mouth absolute left-[39px] top-[70px] h-2 w-6 bg-[#5b1f18] ${speaking ? "is-speaking" : ""}`} />
+
+      {/* beard, Odysseus's signature look, framing the mouth without covering it */}
+      <div className="absolute left-5 top-[62px] h-9 w-4 bg-[#5a4128]" />
+      <div className="absolute right-5 top-[62px] h-9 w-4 bg-[#5a4128]" />
+      <div className={`pixel-odysseus-mouth absolute left-[39px] top-[70px] h-2 w-6 bg-[#3a2a22] ${speaking ? "is-speaking" : ""}`} />
+      <div className="absolute left-8 top-[78px] h-3 w-11 bg-[#5a4128]" />
 
       <div className={`absolute left-6 top-[82px] h-3 w-[60px] ${robe}`} />
       <div className={`absolute left-5 top-[86px] h-4 w-16 ${accent}`} />
-      {persona === "general" ? <div className="absolute left-8 top-[86px] h-4 w-10 bg-[#8c8170]" /> : null}
-      {persona === "political" ? <div className="absolute left-9 top-[86px] h-4 w-8 bg-[#f7f1e6]" /> : null}
-      {persona === "final-days" ? <div className="absolute left-9 top-[86px] h-4 w-8 bg-[#4b2030]" /> : null}
+      {persona === "general" ? <div className="absolute left-8 top-[86px] h-4 w-10 bg-[#c9a24a]" /> : null}
+      {persona === "political" ? <div className="absolute left-9 top-[86px] h-4 w-8 bg-[#e6ded0]" /> : null}
+      {persona === "final-days" ? <div className="absolute left-9 top-[86px] h-4 w-8 bg-[#2b3b34]" /> : null}
     </div>
   );
 }
 
 function InfoBlock({ title, mark, children }: { title: string; mark: string; children: ReactNode }) {
   return (
-    <section className="border border-[#d8c9b1] bg-[#ffffff] p-3">
-      <h2 className="flex items-center gap-2 font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#765537]">
+    <section className="border border-[#d6dccb] bg-[#ffffff] p-3">
+      <h2 className="flex items-center gap-2 font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#5c6b52]">
         <span aria-hidden="true">{mark}</span>
         {title}
       </h2>
-      <p className="mt-3 font-sans text-[11px] leading-5 text-[#5b422a]">{children}</p>
+      <p className="mt-3 font-sans text-[11px] leading-5 text-[#4b5647]">{children}</p>
     </section>
   );
 }

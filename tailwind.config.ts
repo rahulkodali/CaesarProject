@@ -9,10 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        marble: "#f4f1ea",
-        ink: "#201c17",
-        laurel: "#586645",
-        clay: "#9c6044"
+        marble: "#eef1e6",
+        ink: "#16221d",
+        aegean: "#1f6f78",
+        bronze: "#8a6a3a"
       },
       boxShadow: {
         soft: "0 18px 45px rgba(32, 28, 23, 0.11)"

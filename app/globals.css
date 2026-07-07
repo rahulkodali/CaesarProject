@@ -13,7 +13,7 @@
 body {
   margin: 0;
   background: #ffffff;
-  color: #2f2418;
+  color: #1c2b23;
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   overflow-x: hidden;
 }
@@ -25,8 +25,8 @@ textarea {
 }
 
 ::selection {
-  background: #9c2f28;
-  color: #f8f0de;
+  background: #1f6f78;
+  color: #f2e9d0;
 }
 
 .pixel-odysseus-mouth {
