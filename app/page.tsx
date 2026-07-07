@@ -6,7 +6,7 @@ import {
   personas,
   type ChatMessage,
   type PersonaId
-} from "@/lib/caesar";
+} from "@/lib/odysseus";
 
 type DisplayMessage = Required<Pick<ChatMessage, "id" | "role" | "content">>;
 
@@ -16,7 +16,7 @@ const welcomeMessages: Record<PersonaId, DisplayMessage[]> = {
       id: "welcome-general",
       role: "assistant",
       content:
-        "Salve. I am Caesar the commander. Ask me of conquest, discipline, victory, Pompey, or the legions."
+        "Well met. I am Odysseus the hero. Ask me of Troy, survival, glory, homecoming, or how I want to be remembered."
     }
   ],
   political: [
@@ -24,7 +24,7 @@ const welcomeMessages: Record<PersonaId, DisplayMessage[]> = {
       id: "welcome-political",
       role: "assistant",
       content:
-        "Salve. I am Caesar the statesman. Ask me of reform, reputation, the Senate, public favor, or the Republic."
+        "Well met. I am Odysseus the trickster. Ask me of disguise, storytelling, Polyphemus, Nobody, or the art of deception."
     }
   ],
   "final-days": [
@@ -32,7 +32,7 @@ const welcomeMessages: Record<PersonaId, DisplayMessage[]> = {
       id: "welcome-final-days",
       role: "assistant",
       content:
-        "Salve. I am Caesar near the Ides. Ask me of ambition, enemies, honors, betrayal, or how Rome will remember me."
+        "Well met. I am Odysseus returned home. Ask me of Ithaca, Penelope, the suitors, revenge, or what it means to come home."
     }
   ]
 };
@@ -50,55 +50,65 @@ const personaAccent: Record<PersonaId, string> = {
 };
 
 const personaTone: Record<PersonaId, string> = {
-  general: "Command, conquest, discipline",
-  political: "Reform, reputation, persuasion",
-  "final-days": "Ambition, danger, betrayal"
+  general: "Bravery, survival, glory",
+  political: "Cunning, disguise, storytelling",
+  "final-days": "Suspicion, revenge, identity"
 };
 
 const promptGroups = [
   {
-    title: "Power & Politics",
+    title: "Heroism & Reputation",
     prompts: [
-      "Did you really want to be king?",
-      "What do you think about the Senate?",
-      "How do you justify weakening the Republic?",
-      "How did you use clemency as a political weapon?",
-      "Were your reforms meant to save the Republic or replace it?",
-      "Why did so many senators fear your popularity?"
+      "Are you actually a hero?",
+      "Why do you care so much about being remembered?",
+      "Was your pride your biggest weakness?"
     ]
   },
   {
-    title: "War & Soldiers",
+    title: "Tricks & Storytelling",
     prompts: [
-      "Why did you cross the Rubicon?",
-      "What do you think of Pompey?",
-      "What made you so popular with your soldiers?",
-      "What did your soldiers admire most about you?",
-      "What did victory in Gaul teach you about Rome?"
+      "Why did you lie so often?",
+      "Why did you call yourself Nobody?",
+      "Do you think deception can be heroic?"
     ]
   },
   {
-    title: "Legacy & Ambition",
+    title: "Homecoming & Family",
     prompts: [
-      "How do you want Rome to remember you?",
-      "Was your ambition good for Rome or only for yourself?",
-      "What would you say to Brutus?",
-      "Did you trust anyone near the end?",
-      "What is the cost of glory?"
+      "Why was getting home so important?",
+      "What did Penelope mean to you?",
+      "Why did you test people when you returned to Ithaca?"
+    ]
+  },
+  {
+    title: "Gods & Monsters",
+    prompts: [
+      "What role did Athena play in your journey?",
+      "Were the gods fair to you?",
+      "What did Polyphemus teach you?"
+    ]
+  },
+  {
+    title: "Revenge & Justice",
+    prompts: [
+      "Was killing the suitors justified?",
+      "Did you go too far after returning home?",
+      "What kind of justice did Ithaca need?"
     ]
   }
 ];
 
-const caesarTimeline = [
-  ["100 BCE", "Caesar is born into a patrician family."],
-  ["60 BCE", "First Triumvirate forms with Caesar, Pompey, and Crassus."],
-  ["58-50 BCE", "Caesar campaigns in Gaul and gains military prestige."],
-  ["49 BCE", "Caesar crosses the Rubicon, beginning civil war."],
-  ["48 BCE", "Pompey is defeated at Pharsalus."],
-  ["44 BCE", "Caesar is assassinated on the Ides of March."]
+const odysseyTimeline = [
+  ["Troy ends", "Odysseus begins trying to return home."],
+  ["Calypso's isle", "Odysseus is trapped away from home."],
+  ["Cyclops episode", "Odysseus tricks Polyphemus with the name \"Nobody,\" then reveals his real name."],
+  ["Phaeacians", "Odysseus tells the story of his wanderings."],
+  ["Return to Ithaca", "Odysseus comes home disguised as a beggar."],
+  ["Revenge on suitors", "Odysseus reveals himself and retakes his household."],
+  ["Reunion", "Odysseus proves his identity to Penelope and completes his homecoming."]
 ];
 
-export default function CaesarChatbot() {
+export default function OdysseusChatbot() {
   const [persona, setPersona] = useState<PersonaId>("general");
   const [input, setInput] = useState("");
   const [messagesByPersona, setMessagesByPersona] =
@@ -151,7 +161,7 @@ export default function CaesarChatbot() {
 
     setLoadingPersona(targetPersona);
     try {
-      appendAssistant(await requestCaesarReply(trimmed, targetPersona, historyForRequest), targetPersona);
+      appendAssistant(await requestOdysseusReply(trimmed, targetPersona, historyForRequest), targetPersona);
     } catch {
       appendAssistant(getRuleBasedReply(trimmed, targetPersona), targetPersona);
     } finally {
@@ -159,7 +169,7 @@ export default function CaesarChatbot() {
     }
   }
 
-  async function requestCaesarReply(
+  async function requestOdysseusReply(
     message: string,
     targetPersona: PersonaId,
     history: Pick<ChatMessage, "role" | "content">[]
@@ -235,7 +245,7 @@ export default function CaesarChatbot() {
     const lastUserPrompt = [...messagesByPersona[persona]]
       .reverse()
       .find((message) => message.role === "user")?.content;
-    const prompt = typedPrompt || lastUserPrompt || "Was your ambition good for Rome or only for yourself?";
+    const prompt = typedPrompt || lastUserPrompt || "Was killing the suitors justified?";
 
     if (typedPrompt) {
       const userMessage: DisplayMessage = {
@@ -260,7 +270,7 @@ export default function CaesarChatbot() {
           const personaHistory = messagesByPersona[targetPersona].map(({ role, content }) => ({ role, content }));
 
           try {
-            return await requestCaesarReply(prompt, targetPersona, [
+            return await requestOdysseusReply(prompt, targetPersona, [
               ...personaHistory,
               { role: "user", content: prompt }
             ]);
@@ -272,15 +282,15 @@ export default function CaesarChatbot() {
 
       appendAssistant(
         [
-          `Comparing Caesar's voices for: "${prompt}"`,
+          `Comparing Odysseus's voices for: "${prompt}"`,
           "",
-          "General Caesar ⚔️",
+          "Odysseus the Hero 🛡️",
           replies[0],
           "",
-          "Political Caesar 🏛️",
+          "Odysseus the Trickster 🌀",
           replies[1],
           "",
-          "Final Days Caesar 🗡️",
+          "Odysseus Returned Home 🏠",
           replies[2]
         ].join("\n")
       );
@@ -295,13 +305,13 @@ export default function CaesarChatbot() {
         <aside className="border-b border-[#d8c9b1] bg-[#f7f3ec] lg:overflow-y-auto lg:border-b-0 lg:border-r">
           <div className="p-3 sm:p-4 lg:p-4 xl:p-5">
             <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
-              Roman Voice Archive
+              Mythic Voice Archive
             </p>
             <h1 className="mt-2 max-w-[12ch] text-3xl font-black leading-[0.9] tracking-tight text-[#2a1c12] sm:text-4xl lg:text-4xl xl:text-5xl">
-              Talk to Julius Caesar
+              Ask Odysseus
             </h1>
             <p className="mt-3 hidden border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] sm:block">
-              A historically grounded conversation with Caesar as commander, statesman, and man under threat.
+              A myth-grounded conversation with Odysseus as hero, trickster, and returned king.
             </p>
           </div>
 
@@ -360,52 +370,52 @@ export default function CaesarChatbot() {
 
           <details className="border-b border-[#d8c9b1] bg-[#ffffff] p-3 font-sans text-xs text-[#5b422a] lg:hidden">
             <summary className="cursor-pointer font-black uppercase tracking-[0.18em] text-[#765537]">
-              Historical Context
+              Mythological Grounding
             </summary>
             <div className="mt-3 space-y-3 leading-5">
               <p>
-                This chatbot focuses on Caesar in the late Roman Republic: Senate, Pompey, Rubicon, military loyalty,
-                ambition, dictatorship, and legacy. The answers are interpretive, not real transcripts.
+                This chatbot focuses on Odysseus in Homer&apos;s Odyssey: heroism, lying, reputation, Penelope,
+                Athena, Poseidon, xenia, revenge, and homecoming. The answers are interpretive, not real ancient
+                speech.
               </p>
               <ol className="space-y-1">
-                {caesarTimeline.map(([date, event]) => (
+                {odysseyTimeline.map(([date, event]) => (
                   <li key={date}>
                     <span className="font-black text-[#7a2d23]">{date}</span> — {event}
                   </li>
                 ))}
               </ol>
               <p>
-                Research basis includes Morstein-Marx's <em>Julius Caesar and the Roman People</em>,{" "}
-                <em>The Cambridge Companion to the Writings of Julius Caesar</em>, and Catherine Steel on Caesar's
-                reception.
+                Research basis includes Homer&apos;s <em>Odyssey</em>, especially episodes involving Polyphemus,
+                Calypso, Odysseus&apos; return to Ithaca, Penelope, Athena, and the suitors.
               </p>
               <p>
-                This is an interpretive reconstruction, not a real ancient source. Use it to compare how Caesar might
-                justify himself as general, politician, or doomed ruler.
+                This is an interpretive reconstruction, not a real ancient source. Use it to compare how Odysseus
+                might justify himself as hero, trickster, or returned king.
               </p>
             </div>
           </details>
 
           <section className="hidden space-y-4 p-5 lg:block">
             <InfoBlock title="How to Use This" mark="↳">
-              Ask Caesar about the Senate, Pompey, the Rubicon, ambition, dictatorship, military loyalty, or legacy.
-              Then switch personas to see how his answer changes when he is framed as a general, politician, or doomed
-              ruler.
+              Ask Odysseus about heroism, lying, reputation, Penelope, Athena, Poseidon, xenia, revenge, or
+              homecoming. Switch personas to see how his answer changes when he is framed as hero, trickster, or
+              returned king.
             </InfoBlock>
 
-            <InfoBlock title="Historical Grounding" mark="🏛️">
-              This chatbot focuses on Julius Caesar in the late Roman Republic, especially his relationship with the
-              Senate, Pompey, the Rubicon, military loyalty, ambition, dictatorship, and legacy. The answers are an
-              interpretation of Caesar's voice, not real historical transcripts.
+            <InfoBlock title="Mythological Grounding" mark="🏛️">
+              This chatbot focuses on Odysseus in Homer&apos;s Odyssey, especially his identity as a complicated
+              hero, storyteller, husband, king, survivor, and trickster. The answers are an interpretation of
+              Odysseus&apos; voice, not real ancient speech.
             </InfoBlock>
 
             <section className="border border-[#d8c9b1] bg-[#ffffff] p-3">
               <h2 className="font-sans text-[10px] font-black uppercase tracking-[0.26em] text-[#765537]">
-                Caesar Timeline
+                Odyssey Timeline
               </h2>
               <ol className="mt-3 space-y-2">
-                {caesarTimeline.map(([date, event]) => (
-                  <li key={date} className="grid grid-cols-[3.8rem_minmax(0,1fr)] gap-2 font-sans text-[11px] leading-4 xl:grid-cols-[4.5rem_minmax(0,1fr)]">
+                {odysseyTimeline.map(([date, event]) => (
+                  <li key={date} className="grid grid-cols-[6.5rem_minmax(0,1fr)] gap-2 font-sans text-[11px] leading-4 xl:grid-cols-[7.5rem_minmax(0,1fr)]">
                     <span className="font-black text-[#7a2d23]">{date}</span>
                     <span className="text-[#5b422a]">{event}</span>
                   </li>
@@ -414,21 +424,20 @@ export default function CaesarChatbot() {
             </section>
 
             <InfoBlock title="Why This Matters" mark="!">
-              Caesar still matters because his career raises questions about political image, weak institutions,
-              charisma, ambition, and one-person rule. The chatbot format lets users explore how a powerful leader
-              might justify his choices to an audience.
+              Odysseus still matters because he challenges simple ideas of heroism. He is brave and intelligent,
+              but also deceptive, prideful, and violent. The chatbot format lets users explore how a mythological
+              hero might justify his choices.
             </InfoBlock>
 
             <InfoBlock title="Research Basis" mark="📜">
-              This project is based on research about Caesar's role in the late Republic, his writings and
-              self-presentation, and his later reception. The written supplement uses Robert Morstein-Marx's
-              <em> Julius Caesar and the Roman People</em>, <em>The Cambridge Companion to the Writings of Julius Caesar</em>,
-              and Catherine Steel's Oxford Classical Dictionary entry on Caesar's reception.
+              This project is based on Homer&apos;s <em>Odyssey</em>, especially episodes involving Polyphemus,
+              Calypso, Odysseus&apos; return to Ithaca, Penelope, Athena, and the suitors. It connects to course
+              themes about heroism, xenia, storytelling, monsters, identity, and reputation.
             </InfoBlock>
 
             <InfoBlock title="Interpretation Note" mark="§">
-              This chatbot is an interpretive reconstruction, not a real ancient source. The goal is to model how
-              Caesar might justify himself based on his historical role, his public image, and later reception.
+              This chatbot is an interpretive reconstruction, not a primary source. It is meant to model how
+              Odysseus might explain himself based on the Odyssey and course themes.
             </InfoBlock>
           </section>
         </aside>
@@ -436,7 +445,7 @@ export default function CaesarChatbot() {
         <section className="flex min-w-0 max-w-full flex-col overflow-hidden bg-[#ffffff] lg:grid lg:min-h-0 lg:grid-rows-[auto_auto_minmax(0,1fr)_auto]">
           <header className="border-b border-[#d8c9b1] px-3 py-2.5 sm:px-5 sm:py-3 lg:px-5 xl:px-6">
             <div className="grid min-w-0 gap-3 lg:grid-cols-[6rem_minmax(0,1fr)_minmax(13rem,18rem)] xl:grid-cols-[7rem_minmax(0,1fr)_minmax(15rem,20rem)] lg:items-end lg:gap-3 xl:gap-4">
-              <PixelCaesar persona={persona} speaking={loading || speakingPersona === persona} />
+              <PixelOdysseus persona={persona} speaking={loading || speakingPersona === persona} />
               <div className="min-w-0">
                 <p className="font-sans text-[10px] font-black uppercase tracking-[0.34em] text-[#b94636]">
                   Active Transcript
@@ -447,15 +456,16 @@ export default function CaesarChatbot() {
               </div>
               <div className="hidden min-w-0 border-l-4 border-[#b94636] pl-3 font-sans text-xs leading-5 text-[#5b422a] lg:block">
                 <p>{activePersona.description}</p>
-                {loading ? <p className="mt-1 font-black text-[#3a2a1b]">Caesar is composing a reply.</p> : null}
+                {loading ? <p className="mt-1 font-black text-[#3a2a1b]">Odysseus is composing a reply.</p> : null}
               </div>
             </div>
           </header>
 
           <section className="border-b border-[#d8c9b1] bg-[#f8f4ee] px-3 py-2 font-sans text-[11px] leading-4 text-[#5b422a] lg:hidden">
             <p>
-              <span className="font-black uppercase tracking-[0.18em] text-[#765537]">Historical Grounding</span> Caesar
-              in the late Republic: Senate, Pompey, Rubicon, military loyalty, ambition, dictatorship, and legacy.
+              <span className="font-black uppercase tracking-[0.18em] text-[#765537]">Mythological Grounding</span>{" "}
+              Odysseus in Homer&apos;s Odyssey: heroism, lying, reputation, Penelope, Athena, xenia, revenge, and
+              homecoming.
             </p>
           </section>
 
@@ -515,7 +525,7 @@ export default function CaesarChatbot() {
               {loading ? (
                 <article className="grid gap-2 border-l-4 border-[#7b8d66] py-1.5 pl-3 sm:grid-cols-[7rem_minmax(0,1fr)]">
                   <p className="font-sans text-[10px] font-black uppercase tracking-[0.22em] text-[#765537]">Status</p>
-                  <p className="font-sans text-sm text-[#52633d]">{activePersona.label} considers the record...</p>
+                  <p className="font-sans text-sm text-[#52633d]">{activePersona.label} considers the wine-dark sea...</p>
                 </article>
               ) : null}
               <div ref={messagesEndRef} />
@@ -528,7 +538,7 @@ export default function CaesarChatbot() {
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={`Ask ${activePersona.label} about Rome, power, Pompey, the Senate, or legacy...`}
+                placeholder={`Ask ${activePersona.label} about heroism, homecoming, Penelope, Athena, or revenge...`}
                 rows={1}
                 className="min-h-12 min-w-[16rem] flex-1 resize-none border border-[#d8c9b1] bg-[#ffffff] px-4 py-2.5 font-sans text-sm leading-6 text-[#2a1c12] outline-none transition placeholder:text-[#8d6b45] focus:border-[#b94636]"
               />
@@ -555,7 +565,7 @@ export default function CaesarChatbot() {
   );
 }
 
-function PixelCaesar({ persona, speaking }: { persona: PersonaId; speaking: boolean }) {
+function PixelOdysseus({ persona, speaking }: { persona: PersonaId; speaking: boolean }) {
   const accent = persona === "political" ? "bg-[#b94636]" : persona === "final-days" ? "bg-[#273526]" : "bg-[#6f3f25]";
   const frame = persona === "political" ? "bg-[#fff8e8]" : persona === "final-days" ? "bg-[#eee9df]" : "bg-[#f7f3ec]";
   const brow = persona === "final-days" ? "bg-[#2a1c12]" : "bg-[#7a4f32]";
@@ -606,7 +616,7 @@ function PixelCaesar({ persona, speaking }: { persona: PersonaId; speaking: bool
       <div className="absolute left-8 top-[54px] h-1.5 w-2.5 bg-[#2a1c12]" />
       <div className="absolute right-8 top-[54px] h-1.5 w-2.5 bg-[#2a1c12]" />
       <div className="absolute left-[44px] top-[60px] h-2 w-2 bg-[#7a4f32]" />
-      <div className={`pixel-caesar-mouth absolute left-[39px] top-[70px] h-2 w-6 bg-[#5b1f18] ${speaking ? "is-speaking" : ""}`} />
+      <div className={`pixel-odysseus-mouth absolute left-[39px] top-[70px] h-2 w-6 bg-[#5b1f18] ${speaking ? "is-speaking" : ""}`} />
 
       <div className={`absolute left-6 top-[82px] h-3 w-[60px] ${robe}`} />
       <div className={`absolute left-5 top-[86px] h-4 w-16 ${accent}`} />

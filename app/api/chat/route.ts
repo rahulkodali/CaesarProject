@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buildGeminiPrompt, getRuleBasedReply, type ChatMessage, type PersonaId } from "@/lib/caesar";
+import { buildGeminiPrompt, getRuleBasedReply, type ChatMessage, type PersonaId } from "@/lib/odysseus";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
