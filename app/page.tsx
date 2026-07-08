@@ -489,7 +489,7 @@ export default function OdysseusChatbot() {
                           type="button"
                           onClick={() => void sendMessage(prompt)}
                           disabled={Boolean(loadingPersona)}
-                          className="max-w-[16rem] shrink-0 border border-[#d6dccb] bg-[#ffffff] px-2.5 py-1.5 font-sans text-[11px] font-bold text-[#8a6a3a] transition hover:-translate-y-0.5 hover:border-[#1f6f78] hover:text-[#16221d] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="flex min-h-11 w-48 shrink-0 items-center justify-center border border-[#d6dccb] bg-[#ffffff] px-2.5 py-1.5 text-center font-sans text-[11px] font-bold text-[#8a6a3a] transition hover:-translate-y-0.5 hover:border-[#1f6f78] hover:text-[#16221d] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           {prompt}
                         </button>
